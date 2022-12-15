@@ -16,7 +16,7 @@ class CustomLoader {
     showDialog(
         barrierColor: Colors.transparent,
         useSafeArea: true,
-        useRootNavigator: true,
+        useRootNavigator: false,
         barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {

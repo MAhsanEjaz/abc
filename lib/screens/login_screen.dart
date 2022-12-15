@@ -9,7 +9,6 @@ import 'package:abc_cash_and_carry/services/login_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'home_screen_without_login.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -136,8 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ? CupertinoIcons.eye
                             : CupertinoIcons.eye_slash,
                       ),
-                      SizedBox(
-                        height: 20),
+                      SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 6.0),
                         child: MyCustomButton(

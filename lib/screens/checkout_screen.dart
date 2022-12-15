@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:abc_cash_and_carry/helper_services/token_save_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:abc_cash_and_carry/helper_services/custom_loader.dart';
@@ -77,144 +78,162 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   //   });
   // }
 
+  Future<bool> makePaymentDialog() async {
+    return await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              content: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [Text('First complete your current order')],
+              ),
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer2<UserDataProvider, CartItemsProvider>(
         builder: (context, user, cartInvoice, _) {
-      return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            leading: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back,
-                  color: Colors.black,
-                )),
+      return WillPopScope(
+        onWillPop: switchTime == true ? makePaymentDialog : null,
+        child: Scaffold(
             backgroundColor: Colors.white,
-            title: Text(
-              'Order Checkout',
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Consumer2<UserDataProvider, CartItemsProvider>(
-                builder: (context, user, cart, _) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                      child: CheckoutItemsListview(
-                    cartItem: cart.cartItems,
+            appBar: AppBar(
+              leading: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
                   )),
+              backgroundColor: Colors.white,
+              title: Text(
+                'Order Checkout',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Consumer2<UserDataProvider, CartItemsProvider>(
+                  builder: (context, user, cart, _) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                        child: CheckoutItemsListview(
+                      cartItem: cart.cartItems,
+                    )),
 
-                  //
+                    //
 
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Select Payment Type',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Select Payment Type',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 18),
+                      ),
                     ),
-                  ),
 
-                  CustomCheckPick(
-                    iconData: FontAwesomeIcons.hand,
-                    color: color == 0 ? true : false,
-                    onTap: switchTime == true
-                        ? null
-                        : () {
-                            color = 0;
-                            setState(() {});
-                          },
-                    text: 'Cash on Delivery',
-                  ),
-                  CustomCheckPick(
-                    iconData: FontAwesomeIcons.moneyBillTransfer,
-                    color: color == 1 ? true : false,
-                    onTap: switchTime == true
-                        ? null
-                        : () async {
-                            switchTime == true
-                                ? CustomSnackBar.showSnackBar(
-                                    context: context,
-                                    message:
-                                        'You have already pay please place you order')
-                                : await makePayment(
-                                    cart.totalCalculatedPrice.toString(),
-                                    cart.cartItems![0].ticketId.toString());
-                            color = 1;
-
-                            setState(() {});
-                          },
-                    text: 'Stripe',
-                  ),
-
-                  Consumer<CartItemsProvider>(builder: (context, data, _) {
-                    return SizedBox(
-                      // height: 45,
-                      width: MediaQuery.of(context).size.width,
-                      child: color == 1
-                          ? ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  primary: Colors.orange),
-                              onPressed: switchTime == false
-                                  ? null
-                                  : () async {
-                                      saveCustomerOrderHandler(
-                                          user.user!.data!.email.toString(),
-                                          user.user!.data!.phoneNumber
-                                              .toString(),
-                                          user.user!.data!.address.toString(),
-                                          data.totalCalculatedPrice.toString(),
-                                          user.user!.data!.city.toString(),
-                                          // '${DateTime.now().year}-0${DateTime.now().month}-${DateTime.now().day}',
-                                          user.user!.data!.userName!,
-                                          cartInvoice.cartItems![0].ticketId
-                                              .toString(),
-                                          user.user!.data!.id!,
-                                          user.user!.data!.zipCode.toString());
-
-                                      PageRouteService.pageRoute(
-                                          context: context,
-                                          child: SuccessMessageScreen());
-                                      setState(() {});
-                                    },
-                              child: Text('Place Order'))
-                          : ElevatedButton(
-                              onPressed: () {
-                                if (validate()) {
-                                  saveCustomerOrderHandler(
-                                      user.user!.data!.email.toString(),
-                                      user.user!.data!.phoneNumber.toString(),
-                                      user.user!.data!.address.toString(),
-                                      data.totalCalculatedPrice.toString(),
-                                      user.user!.data!.city.toString(),
-                                      // '${DateTime.now().year}-0${DateTime.now().month}-${DateTime.now().day}',
-                                      user.user!.data!.userName!,
-                                      cartInvoice.cartItems![0].ticketId
-                                          .toString(),
-                                      user.user!.data!.id!,
-                                      user.user!.data!.zipCode.toString());
-                                  PageRouteService.pageRoute(
+                    CustomCheckPick(
+                      iconData: FontAwesomeIcons.hand,
+                      color: color == 0 ? true : false,
+                      onTap: switchTime == true
+                          ? null
+                          : () {
+                              color = 0;
+                              setState(() {});
+                            },
+                      text: 'Cash on Delivery',
+                    ),
+                    CustomCheckPick(
+                      iconData: FontAwesomeIcons.moneyBillTransfer,
+                      color: color == 1 ? true : false,
+                      onTap: switchTime == true
+                          ? null
+                          : () async {
+                              switchTime == true
+                                  ? CustomSnackBar.showSnackBar(
                                       context: context,
-                                      child: SuccessMessageScreen());
-                                }
-                              },
-                              child: Text('Place order'),
-                              style: ElevatedButton.styleFrom(
-                                  primary: Colors.orange),
-                            ),
-                    );
-                  })
-                ],
-              );
-            }),
-          ));
+                                      message:
+                                          'You have already pay please place you order')
+                                  : await makePayment(
+                                      cart.totalCalculatedPrice.toString(),
+                                      cart.cartItems![0].ticketId.toString());
+                              color = 1;
+
+                              setState(() {});
+                            },
+                      text: 'Stripe',
+                    ),
+
+                    Consumer<CartItemsProvider>(builder: (context, data, _) {
+                      return SizedBox(
+                        // height: 45,
+                        width: MediaQuery.of(context).size.width,
+                        child: color == 1
+                            ? ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.orange),
+                                onPressed: switchTime == false
+                                    ? null
+                                    : () async {
+                                        saveCustomerOrderHandler(
+                                            user.user!.data!.email.toString(),
+                                            user.user!.data!.phoneNumber
+                                                .toString(),
+                                            user.user!.data!.address.toString(),
+                                            data.totalCalculatedPrice
+                                                .toString(),
+                                            user.user!.data!.city.toString(),
+                                            // '${DateTime.now().year}-0${DateTime.now().month}-${DateTime.now().day}',
+                                            user.user!.data!.userName!,
+                                            cartInvoice.cartItems![0].ticketId
+                                                .toString(),
+                                            user.user!.data!.id!,
+                                            user.user!.data!.zipCode
+                                                .toString());
+
+                                        PageRouteService.pageRoute(
+                                            context: context,
+                                            child: SuccessMessageScreen());
+                                        setState(() {});
+                                      },
+                                child: Text('Place Order'))
+                            : ElevatedButton(
+                                onPressed: () {
+                                  if (validate()) {
+                                    saveCustomerOrderHandler(
+                                        user.user!.data!.email.toString(),
+                                        user.user!.data!.phoneNumber.toString(),
+                                        user.user!.data!.address.toString(),
+                                        data.totalCalculatedPrice.toString(),
+                                        user.user!.data!.city.toString(),
+                                        // '${DateTime.now().year}-0${DateTime.now().month}-${DateTime.now().day}',
+                                        user.user!.data!.userName!,
+                                        cartInvoice.cartItems![0].ticketId
+                                            .toString(),
+                                        user.user!.data!.id!,
+                                        user.user!.data!.zipCode.toString());
+                                    PageRouteService.pageRoute(
+                                        context: context,
+                                        child: SuccessMessageScreen());
+                                  }
+                                },
+                                child: Text('Place order'),
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.orange),
+                              ),
+                      );
+                    })
+                  ],
+                );
+              }),
+            )),
+      );
     });
   }
 

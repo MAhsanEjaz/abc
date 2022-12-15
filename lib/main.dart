@@ -39,22 +39,29 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => CartItemsProvider()),
           ChangeNotifierProvider(create: (context) => MyOrdersProvider()),
           ChangeNotifierProvider(create: (context) => PaymentMethodsProvider()),
-          ChangeNotifierProvider(create: (context) => ItemSubCategoryProvider()),
-          ChangeNotifierProvider(create: (context) => ItemGetSubCategoriesProvider()),
+          ChangeNotifierProvider(
+              create: (context) => ItemSubCategoryProvider()),
+          ChangeNotifierProvider(
+              create: (context) => ItemGetSubCategoriesProvider()),
           ChangeNotifierProvider(create: (context) => SearchItemProvider()),
-          ChangeNotifierProvider(create: (context) => ItemGetBySubCategoryIDProvider()),
+          ChangeNotifierProvider(
+              create: (context) => ItemGetBySubCategoryIDProvider()),
           ChangeNotifierProvider(create: (context) => InventoryItemProvider()),
           ChangeNotifierProvider(create: (context) => ProfileProvider()),
-          ChangeNotifierProvider(create: (context) => CartInvoiceNumberProvider()),
+          ChangeNotifierProvider(
+              create: (context) => CartInvoiceNumberProvider()),
           ChangeNotifierProvider(create: (context) => OrderProvider()),
-          ChangeNotifierProvider(create: (context) => CustomerProfileProvider()),
-          ChangeNotifierProvider(create: (context) => NewPreviousOrderProvider()),
+          ChangeNotifierProvider(
+              create: (context) => CustomerProfileProvider()),
+          ChangeNotifierProvider(
+              create: (context) => NewPreviousOrderProvider()),
           ChangeNotifierProvider(create: (context) => CurrentOrderProvider())
         ],
         child: MaterialApp(
           title: 'ABC Cash & Carry',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
+              useMaterial3: true,
               primarySwatch: Colors.blue,
               appBarTheme: AppBarTheme(
                   backgroundColor: Colors.white,
