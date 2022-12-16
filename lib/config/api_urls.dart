@@ -39,5 +39,5 @@ String getTotalCartItems = baseUrl + 'Customer/GetUserCartByGroup/17';
 String barcodeUrl = baseUrl + 'Customer/GetItemByBarcode';
 String deleteCurrentCartItemUrl = baseUrl + 'Customer/EmptyCurrentCart';
 String openItemGetUrl = baseUrl + 'Security/OpenItemGet';
-String previousOrdersUrl = baseUrl + 'Customer/GetUserOrderFromCart/';
+String previousOrdersUrl = baseUrl + 'Customer/GetUserOrderFromCartPrevious/';
 String getCurrentOrderByTicketId = baseUrl + 'Customer/GetCurrentOrderByTicketId/';
