@@ -18,20 +18,26 @@ class CategoriesListViewHorizontal extends StatefulWidget {
 class _CategoriesListViewHorizontalState
     extends State<CategoriesListViewHorizontal> {
   _getAllCategoriesList() async {
-    CustomLoader.showLoader(context: context);
+    // CustomLoader.showLoader(context: context);
 
     bool res = await CategoriesApiServices().getAllCategories(context: context);
     print('getAllCategories CategoriesListViewHorizontal -> $res');
-    CustomLoader.hideeLoader(context);
+    // CustomLoader.hideeLoader(context);
   }
+
+
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getAllCategoriesList();
+
+
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +74,7 @@ class _CategoriesListViewHorizontalState
                 height: 80,
                 width: double.infinity,
                 child: ListView.builder(
+                    // controller: scrollController,
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
                     physics: AlwaysScrollableScrollPhysics(),
@@ -75,13 +82,11 @@ class _CategoriesListViewHorizontalState
                     itemBuilder: (context, index) {
                       return InkWell(
                           onTap: () async {
-
-
                             NavigationServices.goNextAndKeepHistory(
                                 context: context,
                                 widget: SubCategoryScreen(
-                                    text:
-                                        data.categories![index].name.toString(),
+                                    text: data.categories![index].name
+                                        .toString(),
                                     catId:
                                         data.categories![index].id.toString())
                                 // ProductsGridviewScreen(

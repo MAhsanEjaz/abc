@@ -121,7 +121,7 @@ class _ItemGetSubCategoriesWrapCardState
                               context: context,
                               // ticketIDD: data.cartItems![0].ticketId.toString(),
                               product: widget.product!,
-                              quantity: 1);
+                              quantity: 1, ticketIDFromCartModel: data.cartItems![0].ticketId.toString());
 
                           setState(() {});
                         },

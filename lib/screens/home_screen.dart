@@ -1,6 +1,7 @@
 import 'package:abc_cash_and_carry/helper_services/add_to_cart_service.dart';
 import 'package:abc_cash_and_carry/helper_services/custom_loader.dart';
 import 'package:abc_cash_and_carry/helper_services/custom_snackbar.dart';
+import 'package:abc_cash_and_carry/helper_services/internet_connectivity_service.dart';
 import 'package:abc_cash_and_carry/helper_services/navigation_services.dart';
 import 'package:abc_cash_and_carry/helper_widgets/custom_textfield.dart';
 import 'package:abc_cash_and_carry/providers/cart_invoice_number_provider.dart';
@@ -18,13 +19,13 @@ import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:video_player/video_player.dart';
 import '../models/inventory_item_get_model.dart';
+import '../services/categories_service.dart';
 import 'categories_listview_horizontal.dart';
 import 'inventory_item_screen.dart';
 
@@ -65,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
       AddToCartService.addItemToCart(
         product: res,
         context: context,
-        quantity: 1,
+        quantity: 1, ticketIDFromCartModel: '',
       );
     } else {
       CustomSnackBar.failedSnackBar(
@@ -91,14 +92,20 @@ class _HomeScreenState extends State<HomeScreen> {
   int getCount = 10;
 
   inventoryHandler({bool isLoadmore = false}) async {
-    CustomLoader.showLoader(context: context);
+    bool internet = await InternetCheckService.checkInternet();
 
-    bool resInventory = await InventoryItemService().inventoryItemService(
-        context: context, skipCount: skipCount, getCount: getCount);
+    if (internet) {
+      CustomLoader.showLoader(context: context);
 
-    CustomLoader.hideeLoader(context);
+      bool resInventory = await InventoryItemService().inventoryItemService(
+          context: context, skipCount: skipCount, getCount: getCount);
+      CustomLoader.hideeLoader(context);
 
-    print("resInventory---->$resInventory");
+      print("resInventory---->$resInventory");
+    } else {
+      CustomSnackBar.failedSnackBar(
+          context: context, message: 'Please Connect Internet');
+    }
   }
 
   int? id;
@@ -108,7 +115,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     bool res = await CustomerProfileService()
         .customProfileService(context: context, id: id);
-
     print('response------> $res');
   }
 
@@ -120,7 +126,28 @@ class _HomeScreenState extends State<HomeScreen> {
       getCustomerDataHandler();
       _cartItemHandler();
       inventoryHandler();
+
+      videoPlayerController =
+          VideoPlayerController.asset('assets/images/abcvideo.mp4')
+            ..initialize().then((_) {
+              // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+              setState(() {});
+            });
+
+      scrollController = ScrollController()
+        ..addListener(() {
+          if (scrollController!.offset >= 200) {
+            showFloatingActionButton = true;
+          } else {
+            showFloatingActionButton = false;
+          }
+        });
     });
+  }
+
+  void _scrollToTop() {
+    scrollController!.animateTo(0,
+        duration: const Duration(seconds: 4), curve: Curves.linear);
   }
 
   // ScanResult? _scanBarcode;
@@ -191,8 +218,21 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> refresh() async {
-    await inventoryHandler();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      [
+        inventoryHandler(),
+        _cartItemHandler(),
+      ];
+    });
   }
+
+  VideoPlayerController? videoPlayerController;
+
+  bool showFloatingActionButton = false;
+
+  ScrollController? scrollController;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -206,138 +246,230 @@ class _HomeScreenState extends State<HomeScreen> {
                   CustomerProfileProvider>(
               builder: (context, data, cartInvoice, profile, _) {
             return Scaffold(
-                backgroundColor: Colors.white,
-                appBar: AppBar(
-                    elevation: 0,
-                    backgroundColor: Colors.white,
-                    title: profile.customerProfileData == null
-                        ? CupertinoActivityIndicator(radius: 10)
-                        : Text(
-                            'Welcome ${profile.customerProfileData!.fullName.toString()}',
-                            style: TextStyle(fontWeight: FontWeight.w500),
+              floatingActionButton: showFloatingActionButton == false
+                  ? null
+                  : InkWell(
+                      onTap: () {
+                        _scrollToTop();
+                        setState(() {});
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        elevation: 10,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.arrow_upward,
+                            color: Colors.black54,
                           ),
-                    leading: Builder(
-                        builder: (context) => IconButton(
-                              onPressed: () {
-                                ZoomDrawer.of(context)!.toggle();
-                              },
-                              icon: Icon(Icons.sort_outlined),
-                            )),
-                    actions: [
-                      IconButton(
-                        onPressed: () => scanQR(),
-                        icon: Icon(
-                          Icons.qr_code_outlined,
-                          color: Colors.black,
                         ),
                       ),
-                      Consumer<CartItemsProvider>(builder: (context, data, _) {
-                        return Stack(children: [
-                          IconButton(
-                              onPressed: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return CartScreen();
-                                }));
-                              },
-                              icon: Icon(
-                                Icons.shopping_cart,
-                                color: Colors.green,
-                              )),
-                          Text(
-                            data.cartItems!.length.toString(),
-                            style: TextStyle(color: Colors.red),
-                          )
-                        ]);
-                      })
-                    ]),
-                body: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    ),
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                elevation: 0,
+                backgroundColor: Colors.white,
+                title: profile.customerProfileData == null
+                    ? CupertinoActivityIndicator(radius: 10)
+                    : Text(
+                        'Welcome ${profile.customerProfileData!.fullName.toString()}',
+                        style: TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                leading: Builder(
+                    builder: (context) => IconButton(
+                          onPressed: () {
+                            ZoomDrawer.of(context)!.toggle();
+                          },
+                          icon: Icon(Icons.sort_outlined),
+                        )),
+                actions: [
+                  IconButton(
+                    onPressed: () => scanQR(),
+                    icon: Icon(
+                      Icons.qr_code_outlined,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Consumer<CartItemsProvider>(builder: (context, data, _) {
+                    return Stack(children: [
+                      IconButton(
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return CartScreen();
+                            }));
+                          },
+                          icon: Icon(
+                            Icons.shopping_cart,
+                            color: Colors.green,
+                          )),
+                      Text(
+                        data.cartItems!.length.toString(),
+                        style: TextStyle(color: Colors.red),
+                      )
+                    ]);
+                  })
+                ],
+                bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(50),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 5),
+                    child: CustomTextField(
+                      prefix: InkWell(
+                          onTap: () {
+                            FocusScope.of(context).unfocus();
+                          },
+                          child: Icon(Icons.close)),
+                      onSubmit: (value) {
+                        searchControl.text.length < 1
+                            ? Container()
+                            : searchHandler(value);
+                        searchControl.clear();
+                        searchText = value;
+                      },
+                      hintText: 'Search',
+                      controller: searchControl,
+                      textInputAction: TextInputAction.search,
+                      prefixIcon: Icons.search_sharp,
+                    ),
+                  ),
+                ),
+              ),
+              body: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: LazyLoadScrollView(
+                    onEndOfPage: () {
+                      print('im at end');
+                      loadMore();
+                    },
                     child: RefreshIndicator(
                       onRefresh: refresh,
                       triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                      child: LazyLoadScrollView(
-                        onEndOfPage: () {
-                          print('im at end');
-                          loadMore();
-                        },
-                        child: SingleChildScrollView(
-                          child:
-                              Column(mainAxisSize: MainAxisSize.min, children: [
-                            CustomTextField(
-                              prefix: InkWell(
-                                  onTap: () {
-                                    FocusScope.of(context).unfocus();
-                                  },
-                                  child: Icon(Icons.close)),
-                              onSubmit: (value) {
-                                searchControl.text.length < 1
-                                    ? Container()
-                                    : searchHandler(value);
-                                searchControl.clear();
-                                searchText = value;
-                              },
-                              hintText: 'Search',
-                              controller: searchControl,
-                              textInputAction: TextInputAction.search,
-                              prefixIcon: Icons.search_sharp,
-                            ),
-                            SizedBox(height: 20),
-                            Stack(
-                              alignment: Alignment.bottomRight,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 6.0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: CarouselSlider(
-                                        items: images
-                                            .map((e) => e.isEmpty
-                                                ? Center(
-                                                    child:
-                                                        CircularProgressIndicator())
-                                                : Container(
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image:
-                                                                NetworkImage(e),
-                                                            fit: BoxFit.cover)),
-                                                  ))
-                                            .toList(),
-                                        options: CarouselOptions(
-                                            viewportFraction: 1,
-                                            autoPlay: true,
-                                            onPageChanged: (index, r) {
-                                              setState(() {
-                                                activeIndex = index;
-                                              });
-                                            })),
-                                  ),
+                      child: SingleChildScrollView(
+                        controller: scrollController,
+                        child:
+                            Column(mainAxisSize: MainAxisSize.min, children: [
+                          if (videoPlayerController != null)
+                            videoPlayerController!.value.isPlaying == false
+                                ? Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Container(
+                                        height: 200,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                    'assets/images/appstore.png'),
+                                                fit: BoxFit.fill)),
+                                        width: double.infinity,
+                                      ),
+                                      Positioned(
+                                        top: 70,
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: FloatingActionButton(
+                                            backgroundColor: Colors.red,
+                                            child: Icon(CupertinoIcons
+                                                .play_arrow_solid),
+                                            onPressed: () {
+                                              videoPlayerController!.play();
+                                              setState(() {});
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : videoPlayerController!.value.isInitialized
+                                    ? Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                            child: AspectRatio(
+                                              aspectRatio:
+                                                  videoPlayerController!
+                                                      .value.aspectRatio,
+                                              child: VideoPlayer(
+                                                  videoPlayerController!),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            top: 70,
+                                            child: FloatingActionButton(
+                                              elevation: 0,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              child: Icon(CupertinoIcons.pause),
+                                              onPressed: () {
+                                                videoPlayerController!.pause();
+                                                setState(() {});
+                                              },
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    : Container(),
+                          SizedBox(height: 20),
+                          Stack(
+                            alignment: Alignment.bottomRight,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 6.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: CarouselSlider(
+                                      items: images
+                                          .map((e) => e.isEmpty
+                                              ? Center(
+                                                  child:
+                                                      CircularProgressIndicator())
+                                              : Container(
+                                                  decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                          image:
+                                                              NetworkImage(e),
+                                                          fit: BoxFit.cover)),
+                                                ))
+                                          .toList(),
+                                      options: CarouselOptions(
+                                          viewportFraction: 1,
+                                          autoPlay: true,
+                                          onPageChanged: (index, r) {
+                                            setState(() {
+                                              activeIndex = index;
+                                            });
+                                          })),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 8.0, horizontal: 20),
-                                  child: AnimatedSmoothIndicator(
-                                      onDotClicked: (value) {
-                                        activeIndex = value;
-                                        setState(() {});
-                                      },
-                                      effect: ExpandingDotsEffect(
-                                          dotWidth: 7,
-                                          dotHeight: 6,
-                                          activeDotColor: Colors.orange),
-                                      activeIndex: activeIndex,
-                                      count: images.length),
-                                )
-                              ],
-                            ),
-                            CategoriesListViewHorizontal(),
-                            InventoryItemScreen(),
-                          ]),
-                        ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8.0, horizontal: 20),
+                                child: AnimatedSmoothIndicator(
+                                    onDotClicked: (value) {
+                                      activeIndex = value;
+                                      setState(() {});
+                                    },
+                                    effect: ExpandingDotsEffect(
+                                        dotWidth: 7,
+                                        dotHeight: 6,
+                                        activeDotColor: Colors.orange),
+                                    activeIndex: activeIndex,
+                                    count: images.length),
+                              )
+                            ],
+                          ),
+                          CategoriesListViewHorizontal(),
+                          InventoryItemScreen(),
+                        ]),
                       ),
-                    )));
+                    ),
+                  )),
+            );
           })),
     );
   }

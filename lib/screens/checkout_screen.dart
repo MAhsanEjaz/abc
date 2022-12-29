@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:abc_cash_and_carry/helper_services/token_save_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:abc_cash_and_carry/helper_services/custom_loader.dart';
@@ -101,7 +100,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             backgroundColor: Colors.white,
             appBar: AppBar(
               leading: InkWell(
-                  onTap: () {
+                    onTap: () {
                     Navigator.pop(context);
                   },
                   child: Icon(
@@ -177,6 +176,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         child: color == 1
                             ? ElevatedButton(
                                 style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5)),
                                     primary: Colors.orange),
                                 onPressed: switchTime == false
                                     ? null
@@ -223,8 +224,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         child: SuccessMessageScreen());
                                   }
                                 },
-                                child: Text('Place order'),
+                                child: Text(
+                                  'Place order',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                                 style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0)),
                                     primary: Colors.orange),
                               ),
                       );

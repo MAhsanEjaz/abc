@@ -11,14 +11,14 @@ class CategoryCard extends StatelessWidget {
   CategoryCard({required this.category, this.color});
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return SizedBox(
       height: 120,
       width: 170,
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
 
-        elevation: 4,
+        elevation: 2,
         // color: Color(category.color!),
         color: color,
         margin: EdgeInsets.all(6),

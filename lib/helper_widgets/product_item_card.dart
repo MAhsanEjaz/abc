@@ -5,16 +5,18 @@ import 'package:abc_cash_and_carry/helper_services/navigation_services.dart';
 import 'package:abc_cash_and_carry/helper_services/page_route_service.dart';
 import 'package:abc_cash_and_carry/helper_widgets/custom_login_dialog.dart';
 import 'package:abc_cash_and_carry/models/inventory_item_get_model.dart';
+import 'package:abc_cash_and_carry/providers/cart_invoice_number_provider.dart';
 import 'package:abc_cash_and_carry/providers/cart_items_provider.dart';
 import 'package:abc_cash_and_carry/screens/detail_screen.dart';
 import 'package:abc_cash_and_carry/screens/zoom.dart';
+import 'package:abc_cash_and_carry/services/cart_invoice_number_service.dart';
 import 'package:abc_cash_and_carry/services/login_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'custom_button.dart';
 import 'custom_textfield.dart';
 
-class ProductItemCard extends StatelessWidget {
+class ProductItemCard extends StatefulWidget {
   ProductModel product;
 
   String? newTicket;
@@ -22,16 +24,38 @@ class ProductItemCard extends StatelessWidget {
   ProductItemCard({required this.product, this.newTicket});
 
   @override
+  State<ProductItemCard> createState() => _ProductItemCardState();
+}
+
+class _ProductItemCardState extends State<ProductItemCard> {
+  invoiceHandler() async {
+    bool res = await CartInvoiceNumberService()
+        .cartInvoiceNumberService(context: context);
+    print(res);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    invoiceHandler();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Consumer<CartItemsProvider>(builder: (context, data, _) {
+    return Consumer2<CartItemsProvider, CartInvoiceNumberProvider>(
+        builder: (context, data, invoice, _) {
       return Card(
+        color: Colors.white,
         elevation: 5.0,
-        shadowColor: Colors.orange,
+        shadowColor: Colors.orange.shade50,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(10),
-                topLeft: Radius.circular(10))),
+                bottomRight: Radius.circular(5.0),
+                topLeft: Radius.circular(5.0))),
         child: Container(
+          color: Colors.white,
           padding: EdgeInsets.all(8),
           margin: EdgeInsets.all(5),
           height: 280,
@@ -42,7 +66,8 @@ class ProductItemCard extends StatelessWidget {
               // go to product detail screen
               NavigationServices.goNextAndKeepHistory(
                   context: context,
-                  widget: ProductDetailScreen(inventoryItemData: product));
+                  widget:
+                      ProductDetailScreen(inventoryItemData: widget.product));
 
               // Navigator.push(context, MaterialPageRoute(builder: (context) {
               //   return ProductDetailsScreen(product: product);
@@ -53,29 +78,34 @@ class ProductItemCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                    child: product.itemImage == null
+                    child: widget.product.itemImageByPath == null
                         ? Image.network(
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOQK249BZ1ew-naDnrnObIWfHwp8CnQGigvg&usqp=CAU',
+                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcaxQL401fB8lgClXTuq6P_ld9fA7hyhShe4Wb9X5S68X-O-2cJVH9y0TAULpCZ3MwbNA&usqp=CAU',
                             height: 200,
                             width: double.infinity,
                             fit: BoxFit.cover,
+                            filterQuality: FilterQuality.high,
+                            gaplessPlayback: true,
+                            isAntiAlias: true,
                           )
-                        : Image.network(product.itemImage.toString())),
+                        : Image.network(
+                            widget.product.itemImageByPath.toString())),
                 Divider(
                   thickness: 2,
                 ),
                 Container(
                   height: 15,
                   child: Text(
-                    '${product.name}',
+                    '${widget.product.name}',
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                   ),
                 ),
+                SizedBox(height: 10),
                 Row(
                   children: [
                     Expanded(
                       child: Text(
-                        '\$ ${product.retail}',
+                        '\$ ${widget.product.retail}',
                         style: TextStyle(fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -84,8 +114,11 @@ class ProductItemCard extends StatelessWidget {
                           AddToCartService.addItemToCart(
                             // ticketIDD: data.cartItems![0].ticketId.toString(),
                             context: context,
-                            product: product,
+                            product: widget.product,
                             quantity: 1,
+                            ticketIDFromCartModel: data.cartItems!.isEmpty
+                                ? invoice.cartInvoiceNumber!
+                                : data.cartItems![0].ticketId.toString(),
                           );
                         },
                         child: Icon(

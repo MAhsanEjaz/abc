@@ -1,8 +1,11 @@
 import 'package:abc_cash_and_carry/helper_services/add_to_cart_service.dart';
 import 'package:abc_cash_and_carry/helper_services/navigation_services.dart';
+import 'package:abc_cash_and_carry/providers/cart_invoice_number_provider.dart';
+import 'package:abc_cash_and_carry/providers/cart_items_provider.dart';
 import 'package:abc_cash_and_carry/providers/search_item_provider.dart';
 import 'package:abc_cash_and_carry/screens/detail_screen.dart';
 import 'package:abc_cash_and_carry/screens/search_screen.dart';
+import 'package:abc_cash_and_carry/services/cart_invoice_number_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,9 +17,24 @@ class SearchWrapScreen extends StatefulWidget {
 }
 
 class _SearchWrapScreenState extends State<SearchWrapScreen> {
+  invoiceHandler() async {
+    bool res = await CartInvoiceNumberService()
+        .cartInvoiceNumberService(context: context);
+    print(res);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    invoiceHandler();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<SearchItemProvider>(builder: (context, data, _) {
+    return Consumer3<SearchItemProvider, CartItemsProvider,
+        CartInvoiceNumberProvider>(builder: (context, data, cart, invoice, _) {
       List<Widget> widget = [];
       data.searchItem!.forEach((element) {
         widget.add(
@@ -46,9 +64,9 @@ class _SearchWrapScreenState extends State<SearchWrapScreen> {
                           width: 200,
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: NetworkImage(
-                                      'https://static.news.bitcoin.com/wp-content/uploads/2021/12/image-2021-12-09-100057.jpg'),
-                                  fit: BoxFit.cover)),
+                                  image: NetworkImage(element.itemImageByPath ??
+                                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcaxQL401fB8lgClXTuq6P_ld9fA7hyhShe4Wb9X5S68X-O-2cJVH9y0TAULpCZ3MwbNA&usqp=CAU'),
+                                  fit: BoxFit.fill)),
                         ),
                       ),
                       SizedBox(
@@ -93,12 +111,18 @@ class _SearchWrapScreenState extends State<SearchWrapScreen> {
                       InkWell(
                         onTap: () {
                           AddToCartService.addItemToCart(
-                              product: element, context: context, quantity: 1);
+                              product: element,
+                              context: context,
+                              quantity: 1,
+                              ticketIDFromCartModel: cart.cartItems!.isEmpty
+                                  ? invoice.cartInvoiceNumber.toString()
+                                  : cart.cartItems![0].ticketId.toString());
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(3.0),
                           child: Card(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
                             elevation: 5,
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),

@@ -19,7 +19,8 @@ class CartInvoiceNumberService {
 
         await Provider.of<CartInvoiceNumberProvider>(context, listen: false)
             .updateCartInvoiceNumber(
-                newCartInvoiceNumberModel: cartInvoiceNumberModel.data!.invoiceNo!);
+                newCartInvoiceNumberModel:
+                    cartInvoiceNumberModel.data!.invoiceNo!);
         return true;
       } else {
         return false;

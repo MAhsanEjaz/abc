@@ -14,7 +14,8 @@ class AddToCartService {
   static Future<bool> addItemToCart(
       {required ProductModel product,
       required BuildContext context,
-      required int quantity}) async {
+      required int quantity,
+      required String ticketIDFromCartModel}) async {
     try {
       String? ticketId =
           Provider.of<CartInvoiceNumberProvider>(context, listen: false)
@@ -23,19 +24,17 @@ class AddToCartService {
       if (ticketId == null) {
         await CartInvoiceNumberService()
             .cartInvoiceNumberService(context: context);
-        ticketId =
-            Provider.of<CartInvoiceNumberProvider>(context, listen: false)
-                .cartInvoiceNumber;
       }
       int userId =
           Provider.of<UserDataProvider>(context, listen: false).user!.data!.id!;
       CartItemModel cartItem = CartItemModel(
           userId: userId,
+          imageURL: product.itemImage,
           name: product.name,
           id: product.id,
           productCode: product.productCode,
           retail: product.retail,
-          ticketId: ticketId,
+          ticketId: ticketIDFromCartModel,
           imagePath: product.itemImage,
           totalPrice: double.parse(product.retail!) * quantity,
           quantity: quantity);
@@ -46,9 +45,7 @@ class AddToCartService {
           context: context,
           quantity: quantity,
           name: product.name,
-          ticketId:
-              Provider.of<CartInvoiceNumberProvider>(context, listen: false)
-                  .cartInvoiceNumber,
+          ticketId: ticketIDFromCartModel,
           // OrderDate: '${DateTime.now().year}-0${DateTime.now().month}-${DateTime.now().day}',
           id: product.id.toString(),
           imagePath: product.itemImage,

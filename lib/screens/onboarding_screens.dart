@@ -25,7 +25,7 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
       Navigator.pushAndRemoveUntil(
           context,
           CupertinoPageRoute(builder: (context) => LoginScreen()),
-          (route) => false);
+              (route) => false);
     }
   }
 

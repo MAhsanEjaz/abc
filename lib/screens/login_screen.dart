@@ -17,9 +17,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailTextController =
-      TextEditingController(text: 'test@gmail.com');
+      TextEditingController(text: 'nabeelbest7@gmail.com');
   TextEditingController passwordTextController =
-      TextEditingController(text: 'test12345');
+      TextEditingController(text: '123454321');
   bool isPasswordVisible = true;
 
   _validation() {
@@ -32,31 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
       return true;
     }
   }
-
-  // _loginHandler() async {
-  //   bool res1 = await InternetCheckService.checkInternet();
-  //   CustomLoader.showLoader(context: context);
-  //
-  //   if (!res1) {
-  //     bool res = await LoginApiService().loginService(
-  //         context: context,
-  //         password: passwordTextController.text,
-  //         email: emailTextController.text);
-  //
-  //     print('res----$res');
-  //
-  //     CustomLoader.hideLoader(context);
-  //
-  //     if (res) {
-  //       NavigationServices.goNextAndDoNotKeepHistory(
-  //           context: context, widget: ZoomDrawerScreen());
-  //     } else {
-  //       CustomSnackBar.failedSnackBar(
-  //           context: context, message: 'Please connect internet first');
-  //     }
-  //     ;
-  //   }
-  // }
 
   _loginHandler() async {
     bool res1 = await InternetCheckService.checkInternet();

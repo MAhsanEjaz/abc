@@ -93,9 +93,9 @@ class _CurrentOrderScreenState extends State<CurrentOrderScreen> {
                                                                         .currentModel![
                                                                             index]
                                                                         .proImg ??
-                                                                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCVmvZLgYZ-1Gz7FkeWsQ5LN9VmD_im9w9Sg&usqp=CAU'),
+                                                                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcaxQL401fB8lgClXTuq6P_ld9fA7hyhShe4Wb9X5S68X-O-2cJVH9y0TAULpCZ3MwbNA&usqp=CAU'),
                                                                 fit: BoxFit
-                                                                    .cover))),
+                                                                    .fill))),
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.all(
@@ -143,6 +143,7 @@ class _CurrentOrderScreenState extends State<CurrentOrderScreen> {
                                     })
                               ]),
                         )))),
+
             // RichText(
             //     text: TextSpan(children: <TextSpan>[
             //   TextSpan(

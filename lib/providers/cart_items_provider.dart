@@ -32,8 +32,10 @@ class CartItemsProvider extends ChangeNotifier {
     }
 
     cartItems!.add(newCartItem!);
+
     _totalCalculatedPrice();
     notifyListeners();
+
   }
 
   emptyCartItems() {

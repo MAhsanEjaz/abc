@@ -89,9 +89,6 @@ class _CartScreenState extends State<CartScreen> {
       getCartItemsHandler();
       getCartInvoiceNumberHandler();
     });
-    // WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-    //
-    // });
   }
 
   @override
@@ -131,7 +128,7 @@ class _CartScreenState extends State<CartScreen> {
                             radius: 10,
                           )
                         : Text(
-                            'Cart Invoice: ${invoice.cartInvoiceNumber.toString()}',
+                            'Cart Invoice: ${cart.cartItems!.isEmpty ? dataInvoice.cartInvoiceNumber : cart.cartItems![0].ticketId}',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -161,12 +158,10 @@ class _CartScreenState extends State<CartScreen> {
                               child: Card(
                                   shape: RoundedRectangleBorder(
                                       side: BorderSide(
-                                          color:
-                                              Colors.orange.withOpacity(0.1),
+                                          color: Colors.orange.withOpacity(0.1),
                                           width: 1),
-                                      borderRadius:
-                                          BorderRadius.circular(10)),
-                                  elevation: 5,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  elevation: 1,
                                   child: Column(
                                     children: [
                                       Padding(
@@ -186,8 +181,17 @@ class _CartScreenState extends State<CartScreen> {
                                                 width: 80,
                                                 decoration: BoxDecoration(
                                                     image: DecorationImage(
-                                                        image: NetworkImage(
-                                                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfTDL4eFW-ISJtNFLFMBWXgM8Icd62vPrazQ&usqp=CAU'),
+                                                        image: NetworkImage(cart
+                                                                    .cartItems![
+                                                                        index]
+                                                                    .imagePath ==
+                                                                null
+                                                            ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcaxQL401fB8lgClXTuq6P_ld9fA7hyhShe4Wb9X5S68X-O-2cJVH9y0TAULpCZ3MwbNA&usqp=CAU'
+                                                            : cart
+                                                                .cartItems![
+                                                                    index]
+                                                                .imagePath
+                                                                .toString()),
                                                         fit: BoxFit.cover)),
                                               ),
                                             ),
@@ -201,8 +205,7 @@ class _CartScreenState extends State<CartScreen> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     SizedBox(
                                                       height: 7,
@@ -228,8 +231,7 @@ class _CartScreenState extends State<CartScreen> {
                                                       'Cost: ${cart.cartItems![index].retail.toString()}',
                                                       style: TextStyle(
                                                           fontWeight:
-                                                              FontWeight
-                                                                  .w500),
+                                                              FontWeight.w500),
                                                     ),
                                                   ],
                                                 ),
@@ -299,8 +301,7 @@ class _CartScreenState extends State<CartScreen> {
                                                                         qty: cart
                                                                             .cartItems![index]
                                                                             .quantity);
-                                                                setState(
-                                                                    () {});
+                                                                setState(() {});
                                                                 decreaseItemQuantityInCartHandler(
                                                                     cart
                                                                         .cartItems![
@@ -341,8 +342,7 @@ class _CartScreenState extends State<CartScreen> {
                                                                   Text(
                                                                       'Please add quantity'),
                                                                   SizedBox(
-                                                                    height:
-                                                                        10,
+                                                                    height: 10,
                                                                   ),
                                                                   CustomTextField(
                                                                     hintText:
@@ -361,14 +361,17 @@ class _CartScreenState extends State<CartScreen> {
                                                                           () {
                                                                         setState(
                                                                             () {
-                                                                          addQuantityManuallyHandler(cart.cartItems![index].id,
+                                                                          addQuantityManuallyHandler(
+                                                                              cart.cartItems![index].id,
                                                                               cart.cartItems![index].ticketId);
                                                                           cart.cartItems![index].quantity =
                                                                               int.parse(quantityControl.text);
                                                                         });
                                                                         Provider.of<CartItemsProvider>(context, listen: false).updateCartItems(
-                                                                            index: index,
-                                                                            qty: cart.cartItems![index].quantity);
+                                                                            index:
+                                                                                index,
+                                                                            qty:
+                                                                                cart.cartItems![index].quantity);
                                                                         Navigator.of(context)
                                                                             .pop();
                                                                       },
@@ -377,18 +380,17 @@ class _CartScreenState extends State<CartScreen> {
                                                                 ])));
                                               },
                                               child: Padding(
-                                                padding: const EdgeInsets
-                                                        .symmetric(
-                                                    horizontal: 4.0),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 4.0),
                                                 child: Container(
                                                   decoration: BoxDecoration(
                                                       borderRadius:
-                                                          BorderRadius
-                                                              .circular(5.0),
+                                                          BorderRadius.circular(
+                                                              5.0),
                                                       color: Colors.white,
                                                       border: Border.all(
-                                                          color:
-                                                              Colors.black)),
+                                                          color: Colors.black)),
                                                   child: Padding(
                                                     padding: const EdgeInsets
                                                             .symmetric(
@@ -430,17 +432,12 @@ class _CartScreenState extends State<CartScreen> {
                                                           message:
                                                               'Please wait');
                                                       await Future.delayed(
-                                                          Duration(
-                                                              seconds: 1));
+                                                          Duration(seconds: 1));
 
                                                       increaseItemsInCartHandler(
-                                                          cart
-                                                              .cartItems![
-                                                                  index]
+                                                          cart.cartItems![index]
                                                               .id,
-                                                          cart
-                                                              .cartItems![
-                                                                  index]
+                                                          cart.cartItems![index]
                                                               .ticketId);
 
                                                       setState(() {});
@@ -451,8 +448,7 @@ class _CartScreenState extends State<CartScreen> {
                                                         CupertinoIcons.plus),
                                                     iconSize: 16,
                                                   ),
-                                                  shape:
-                                                      RoundedRectangleBorder(
+                                                  shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             20),
@@ -463,8 +459,8 @@ class _CartScreenState extends State<CartScreen> {
                                             ),
                                             Text(
                                               '${double.parse(cart.cartItems![index].retail ?? "0").round() * cart.cartItems![index].quantity}\$',
-                                              style: TextStyle(
-                                                  color: Colors.red),
+                                              style:
+                                                  TextStyle(color: Colors.red),
                                             ),
                                           ],
                                         ),
@@ -506,7 +502,10 @@ class _CartScreenState extends State<CartScreen> {
                   width: double.infinity,
                   height: 45,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Colors.orange),
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.orange,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0))),
                     onPressed: () async {
                       CustomLoader.showLoader(context: context);
 
@@ -520,7 +519,7 @@ class _CartScreenState extends State<CartScreen> {
                     // style: ElevatedButton.styleFrom(primary: Colors.orange),
                     child: Text(
                       'Checkout',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ),
                 );

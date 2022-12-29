@@ -75,7 +75,7 @@ class PreviousOrder {
   String? finalDate;
   bool? needApproval;
   bool? acceptApproval;
-  Null? changeQuantity;
+  String? changeQuantity;
   String? comment;
   String? orignalStatus;
   String? balance;

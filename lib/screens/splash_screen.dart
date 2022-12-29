@@ -7,7 +7,6 @@ import 'package:abc_cash_and_carry/providers/user_data_provider.dart';
 import 'package:abc_cash_and_carry/screens/onboarding_screens.dart';
 import 'package:abc_cash_and_carry/screens/zoom.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,10 +18,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   _checkUser() async {
-
     var user = await LocalStorageService().getUserSavedData(context: context);
-
-
 
 
     if (user == null || user.isEmpty) {

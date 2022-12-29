@@ -23,8 +23,8 @@ class CheckoutItemCard extends StatelessWidget {
         Card(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
-              side: BorderSide(color: Colors.orange)),
-          elevation: 10,
+              side: BorderSide(color: Colors.orange.shade100)),
+          elevation: 1,
           child: Column(
             children: [
               ListTile(
@@ -36,7 +36,7 @@ class CheckoutItemCard extends StatelessWidget {
                     child: Image.network(
                       // cartItem.product!.prodImage.toString(),
                       inventoryItemData!.imagePath ??
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfTDL4eFW-ISJtNFLFMBWXgM8Icd62vPrazQ&usqp=CAU',
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcaxQL401fB8lgClXTuq6P_ld9fA7hyhShe4Wb9X5S68X-O-2cJVH9y0TAULpCZ3MwbNA&usqp=CAU',
                       fit: BoxFit.cover,
                     ),
                   ),

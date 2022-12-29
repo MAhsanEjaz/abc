@@ -9,6 +9,7 @@ import 'package:abc_cash_and_carry/providers/cart_items_provider.dart';
 import 'package:abc_cash_and_carry/providers/user_data_provider.dart';
 import 'package:abc_cash_and_carry/screens/cart_screen.dart';
 import 'package:abc_cash_and_carry/screens/zoom.dart';
+import 'package:abc_cash_and_carry/services/cart_invoice_number_service.dart';
 import 'package:abc_cash_and_carry/services/increase_item_qty_in_cart_service.dart';
 import 'package:abc_cash_and_carry/services/remove_in_cart_service.dart';
 import 'package:flutter/material.dart';
@@ -30,32 +31,25 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  double cartItemPrice = 0;
   int quantity = 1;
-  int userid = 0;
-  String? tickerId2;
 
-  IncreamentItemInCartHandler(int? productId) {
-    tickerId2 = Provider.of<CartInvoiceNumberProvider>(context, listen: false)
-        .cartInvoiceNumber;
-
-    IncreamentItemInCartService().increamentItemInCart(
-        context: context, ticketId: tickerId2, id: productId);
+  invoiceHandler() async {
+    bool res = await CartInvoiceNumberService()
+        .cartInvoiceNumberService(context: context);
+    print(res);
   }
 
-  String? tickerId3;
-
-  decreaseItemQuantityInCartHandler(int? productId) {
-    tickerId3 = Provider.of<CartInvoiceNumberProvider>(context, listen: false)
-        .cartInvoiceNumber;
-
-    RemoveItemInCartService().removeItemInCartService(
-        context: context, id: productId, ticketId: tickerId3);
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    invoiceHandler();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CartItemsProvider>(builder: (_context, data, _) {
+    return Consumer2<CartItemsProvider, CartInvoiceNumberProvider>(
+        builder: (_context, data, invoice, _) {
       return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -76,9 +70,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       decoration: BoxDecoration(
                           image: DecorationImage(
                               image: NetworkImage(widget
-                                      .inventoryItemData!.itemImage ??
-                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJEGeMcYEcGfn3yY_sIMH1crG02jRdggzCSQ&usqp=CAU'),
-                              fit: BoxFit.cover)),
+                                      .inventoryItemData!.itemImageByPath ??
+                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcaxQL401fB8lgClXTuq6P_ld9fA7hyhShe4Wb9X5S68X-O-2cJVH9y0TAULpCZ3MwbNA&usqp=CAU'),
+                              fit: BoxFit.fill)),
                     ),
                     SizedBox(
                       height: 10,
@@ -126,7 +120,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             product: widget.inventoryItemData!,
                             // ticketIDD: cart.cartItems![0].ticketId.toString(),
                             context: context,
-                            quantity: quantity);
+                            quantity: quantity,
+                            ticketIDFromCartModel: data.cartItems!.isEmpty
+                                ? invoice.cartInvoiceNumber!
+                                : data.cartItems![0].ticketId.toString());
 
                         // CustomLoader.hideeLoader(context);
                       },
@@ -171,17 +168,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     children: [
                       BottomSheetHader(
                         name: widget.inventoryItemData!.name.toString(),
-                        image: widget.inventoryItemData!.itemImage == null
-                            ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJEGeMcYEcGfn3yY_sIMH1crG02jRdggzCSQ&usqp=CAU'
-                            : widget.inventoryItemData!.itemImage.toString(),
+                        image: widget.inventoryItemData!.itemImageByPath == null
+                            ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcaxQL401fB8lgClXTuq6P_ld9fA7hyhShe4Wb9X5S68X-O-2cJVH9y0TAULpCZ3MwbNA&usqp=CAU'
+                            : widget.inventoryItemData!.itemImageByPath
+                                .toString(),
                         price: widget.inventoryItemData!.retail.toString(),
                       ),
 
                       Spacer(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Consumer2<UserDataProvider, CartItemsProvider>(
-                            builder: (_context, user, cart, _) {
+                        child: Consumer3<UserDataProvider, CartItemsProvider,
+                                CartInvoiceNumberProvider>(
+                            builder: (_context, user, cart, invoice, _) {
                           return MyCustomButton(
                             child: isBuy ? 'Add to Cart' : 'Buy Now',
                             buttonColor: isBuy ? Colors.orange : Colors.red,
@@ -203,7 +202,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       product: widget.inventoryItemData!,
                                       context: context,
                                       // ticketIDD: cart.cartItems![0].ticketId.toString(),
-                                      quantity: quantity);
+                                      quantity: quantity,
+                                      ticketIDFromCartModel:
+                                          cart.cartItems!.isEmpty
+                                              ? invoice.cartInvoiceNumber!
+                                              : cart.cartItems![0].ticketId
+                                                  .toString());
                                 }
                                 // CustomLoader.hideeLoader(context);
                               } else {
@@ -221,7 +225,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       product: widget.inventoryItemData!,
                                       // ticketIDD: cart.cartItems![0].ticketId.toString(),
                                       context: context,
-                                      quantity: quantity);
+                                      quantity: quantity,
+                                      ticketIDFromCartModel:
+                                          cart.cartItems!.isEmpty
+                                              ? invoice.cartInvoiceNumber!
+                                              : cart.cartItems![0].ticketId
+                                                  .toString());
 
                                   CustomLoader.hideeLoader(context);
 

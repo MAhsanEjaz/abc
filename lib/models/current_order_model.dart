@@ -65,7 +65,7 @@ class CurrentModel {
   String? productName;
   String? price;
   String? invoicedTime;
-  String? pullerEmployeeId;
+  int? pullerEmployeeId;
   String? customerCode;
   String? invoiceEmployeeId;
   String? dueDate;
@@ -75,73 +75,75 @@ class CurrentModel {
   String? finalDate;
   bool? needApproval;
   bool? acceptApproval;
-  Null? changeQuantity;
-  Null? comment;
-  Null? orignalStatus;
+  String? changeQuantity;
+  String? comment;
+  String? orignalStatus;
   String? balance;
   bool? orderDaysAlert;
   int? lineCounts;
   String? proCode;
   String? proSku;
   String? proImg;
+  String? retail;
 
   CurrentModel(
       {this.orderId,
-      this.userId,
-      this.ticketId,
-      this.customerName,
-      this.billingAddress,
-      this.phone,
-      this.email,
-      this.city,
-      this.zipcode,
-      this.country,
-      this.adminStatus,
-      this.delivered,
-      this.orderAmount,
-      this.taxAmount,
-      this.orderDate,
-      this.isPulled,
-      this.isRejected,
-      this.adminActionBy,
-      this.adminActionDate,
-      this.terminalNumber,
-      this.adminActionTime,
-      this.pulledBy,
-      this.deliveredBy,
-      this.pulledDate,
-      this.pulledTime,
-      this.deliveredDate,
-      this.deliveredTime,
-      this.rejectReason,
-      this.paymentMode,
-      this.cardTax,
-      this.isInvoiced,
-      this.invoicedBy,
-      this.invoicedDate,
-      this.quantity,
-      this.productName,
-      this.price,
-      this.invoicedTime,
-      this.pullerEmployeeId,
-      this.customerCode,
-      this.invoiceEmployeeId,
-      this.dueDate,
-      this.isPaid,
-      this.rejectComments,
-      this.expectedDate,
-      this.finalDate,
-      this.needApproval,
-      this.acceptApproval,
-      this.changeQuantity,
-      this.comment,
-      this.orignalStatus,
-      this.balance,
-      this.orderDaysAlert,
-      this.lineCounts,
-      this.proCode,
-      this.proSku,
-      this.proImg});
+        this.userId,
+        this.ticketId,
+        this.customerName,
+        this.billingAddress,
+        this.phone,
+        this.email,
+        this.city,
+        this.zipcode,
+        this.country,
+        this.adminStatus,
+        this.delivered,
+        this.orderAmount,
+        this.taxAmount,
+        this.orderDate,
+        this.isPulled,
+        this.isRejected,
+        this.adminActionBy,
+        this.adminActionDate,
+        this.terminalNumber,
+        this.adminActionTime,
+        this.pulledBy,
+        this.deliveredBy,
+        this.pulledDate,
+        this.pulledTime,
+        this.deliveredDate,
+        this.deliveredTime,
+        this.rejectReason,
+        this.paymentMode,
+        this.cardTax,
+        this.isInvoiced,
+        this.invoicedBy,
+        this.invoicedDate,
+        this.quantity,
+        this.productName,
+        this.price,
+        this.invoicedTime,
+        this.pullerEmployeeId,
+        this.customerCode,
+        this.invoiceEmployeeId,
+        this.dueDate,
+        this.isPaid,
+        this.rejectComments,
+        this.expectedDate,
+        this.finalDate,
+        this.needApproval,
+        this.acceptApproval,
+        this.changeQuantity,
+        this.comment,
+        this.orignalStatus,
+        this.balance,
+        this.orderDaysAlert,
+        this.lineCounts,
+        this.proCode,
+        this.proSku,
+        this.proImg,
+        this.retail});
 
   CurrentModel.fromJson(Map<String, dynamic> json) {
     orderId = json['orderId'];
@@ -200,6 +202,7 @@ class CurrentModel {
     proCode = json['proCode'];
     proSku = json['proSku'];
     proImg = json['proImg'];
+    retail = json['retail'];
   }
 
   Map<String, dynamic> toJson() {
@@ -260,6 +263,7 @@ class CurrentModel {
     data['proCode'] = this.proCode;
     data['proSku'] = this.proSku;
     data['proImg'] = this.proImg;
+    data['retail'] = this.retail;
     return data;
   }
 }

@@ -1,9 +1,11 @@
 import 'package:abc_cash_and_carry/helper_services/add_to_cart_service.dart';
 import 'package:abc_cash_and_carry/helper_services/custom_loader.dart';
 import 'package:abc_cash_and_carry/helper_services/navigation_services.dart';
+import 'package:abc_cash_and_carry/providers/cart_invoice_number_provider.dart';
 import 'package:abc_cash_and_carry/providers/cart_items_provider.dart';
 import 'package:abc_cash_and_carry/screens/cart_screen.dart';
 import 'package:abc_cash_and_carry/screens/detail_screen.dart';
+import 'package:abc_cash_and_carry/services/cart_invoice_number_service.dart';
 import 'package:abc_cash_and_carry/services/item_get_by_sub_categories_item_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,19 +32,26 @@ class _ItemGetBySubCategoryIdScreenState
     CustomLoader.hideeLoader(context);
   }
 
+  invoiceHandler() async {
+    bool res = await CartInvoiceNumberService()
+        .cartInvoiceNumberService(context: context);
+    print(res);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       handler();
+      invoiceHandler();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ItemGetBySubCategoryIDProvider>(
-        builder: (context, data, _) {
+    return Consumer3<ItemGetBySubCategoryIDProvider, CartItemsProvider,
+        CartInvoiceNumberProvider>(builder: (context, data, cart, invoice, _) {
       return Scaffold(
         appBar: AppBar(
           actions: [
@@ -106,9 +115,10 @@ class _ItemGetBySubCategoryIdScreenState
                                   width: 200,
                                   decoration: BoxDecoration(
                                       image: DecorationImage(
-                                          image: NetworkImage(
-                                              'https://static-01.daraz.pk/p/c973b3e5858ad7b6566808d646f1ff44.jpg'),
-                                          fit: BoxFit.cover)),
+                                          image: NetworkImage(element
+                                                  .itemImageByPath ??
+                                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcaxQL401fB8lgClXTuq6P_ld9fA7hyhShe4Wb9X5S68X-O-2cJVH9y0TAULpCZ3MwbNA&usqp=CAU'),
+                                          fit: BoxFit.fill)),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -142,7 +152,12 @@ class _ItemGetBySubCategoryIdScreenState
                                         context: context,
                                         // ticketIDD: data.cartItems![0].ticketId.toString(),
                                         product: element,
-                                        quantity: 1);
+                                        quantity: 1,
+                                        ticketIDFromCartModel:
+                                            cart.cartItems!.isEmpty
+                                                ? invoice.cartInvoiceNumber!
+                                                : cart.cartItems![0].ticketId
+                                                    .toString());
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(4.0),
