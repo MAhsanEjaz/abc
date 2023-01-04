@@ -4,6 +4,7 @@ import 'package:abc_cash_and_carry/helper_services/internet_connectivity_service
 import 'package:abc_cash_and_carry/helper_services/navigation_services.dart';
 import 'package:abc_cash_and_carry/helper_widgets/custom_button.dart';
 import 'package:abc_cash_and_carry/helper_widgets/custom_textfield.dart';
+import 'package:abc_cash_and_carry/screens/forget_password_screen.dart';
 import 'package:abc_cash_and_carry/screens/zoom.dart';
 import 'package:abc_cash_and_carry/services/login_services.dart';
 import 'package:flutter/cupertino.dart';
@@ -93,9 +94,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         type: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      SizedBox(height: 10),
+
                       CustomTextField(
                         type: TextInputType.visiblePassword,
                         onPressed: () {
@@ -110,7 +110,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             ? CupertinoIcons.eye
                             : CupertinoIcons.eye_slash,
                       ),
-                      SizedBox(height: 20),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                            onPressed: () {
+                              NavigationServices.goNextAndDoNotKeepHistory(
+                                  context: context,
+                                  widget: ForgetPasswordScreen());
+                            },
+                            child: Text('Forget Password')),
+                      ),
+                      SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 6.0),
                         child: MyCustomButton(
@@ -125,6 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           // buttonColor: Colors.pink,
                         ),
                       ),
+
                       // Align(
                       //   alignment: Alignment.topLeft,
                       //   child: TextButton(

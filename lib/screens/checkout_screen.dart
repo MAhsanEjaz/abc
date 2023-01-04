@@ -56,26 +56,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       zipCode: zipCode,
     );
 
-    // CustomLoader.hideLoader(context);
-
-    // if (res == true) {
-    //   Navigator.push(context,
-    //       CupertinoPageRoute(builder: (context) => SuccessMessageScreen()));
-    //
-    //   // PageRouteService.pageRoute(
-    //   //     context: context, child: SuccessMessageScreen());
-    // }
+    if (res != true) {
+      CustomSnackBar.failedSnackBar(
+          context: context, message: 'Please try again');
+    }
   }
-
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-  //     switchTime = await LocalStorageService().getPayment(context: context);
-  //     print('paymentWitch----> ${switchTime}');
-  //   });
-  // }
 
   Future<bool> makePaymentDialog() async {
     return await showDialog(
@@ -100,7 +85,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             backgroundColor: Colors.white,
             appBar: AppBar(
               leading: InkWell(
-                    onTap: () {
+                  onTap: () {
                     Navigator.pop(context);
                   },
                   child: Icon(
@@ -346,76 +331,3 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     return a.toString();
   }
 }
-
-// void _showDatePicker(ctx) {
-//   showCupertinoModalPopup(
-//       context: ctx,
-//       builder: (_) =>
-//           Container(
-//             height: 400,
-//             color: Color.fromARGB(255, 255, 255, 255),
-//             child: Material(
-//               child: Column(
-//                 children: [
-//                   Padding(
-//                     padding: const EdgeInsets.only(top: 8.0),
-//                     child: Text(
-//                       'Expected Delivery in 4 - 5 working days',
-//                       style: TextStyle(color: Colors.red),
-//                     ),
-//                   ),
-//                   Container(
-//                     height: 300,
-//                     child: CupertinoDatePicker(
-//                         mode: CupertinoDatePickerMode.date,
-//                         minimumDate: DateTime(DateTime
-//                             .now()
-//                             .year,
-//                             DateTime
-//                                 .now()
-//                                 .month, DateTime
-//                                 .now()
-//                                 .day + 4),
-//                         initialDateTime: DateTime(DateTime
-//                             .now()
-//                             .year,
-//                             DateTime
-//                                 .now()
-//                                 .month, DateTime
-//                                 .now()
-//                                 .day + 4),
-//                         onDateTimeChanged: (val) {
-//                           setState(() {
-//                             deliveryDate =
-//                             '${val.year.toString()}-${val.month
-//                                 .toString()}-${val.day.toString()}';
-//                           });
-//                         }),
-//                   ),
-//
-//                   // Close the modal
-//                   CupertinoButton(
-//                       child: Text('OK'),
-//                       onPressed: () {
-//                         if (deliveryDate.isEmpty) {
-//                           // deliveryDate = '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
-//                           DateTime tempDate = DateTime(DateTime
-//                               .now()
-//                               .year,
-//                               DateTime
-//                                   .now()
-//                                   .month, DateTime
-//                                   .now()
-//                                   .day + 4);
-//                           deliveryDate =
-//                           '${tempDate.year}-${tempDate.month}-${tempDate
-//                               .day}';
-//                         }
-//                         setState(() {});
-//                         Navigator.of(ctx).pop();
-//                       })
-//                 ],
-//               ),
-//             ),
-//           ));
-// }}

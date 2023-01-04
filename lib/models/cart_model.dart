@@ -87,7 +87,7 @@ class CartItemModel {
     unitCharge = json['unitCharge'];
     retail = json['retail'];
     total = json['total'];
-    quantity = json['quantity'] ?? 0;
+    quantity = json['quantity'] ?? 1;
     totalPrice = double.parse(retail!) * quantity;
     count = json['count'];
     pendingForApproval = json['pendingForApproval'];

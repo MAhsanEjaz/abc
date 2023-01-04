@@ -42,6 +42,8 @@ class _ProductItemCardState extends State<ProductItemCard> {
     invoiceHandler();
   }
 
+  bool loading = true;
+
   @override
   Widget build(BuildContext context) {
     return Consumer2<CartItemsProvider, CartInvoiceNumberProvider>(

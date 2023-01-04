@@ -35,7 +35,6 @@ class CartItemsProvider extends ChangeNotifier {
 
     _totalCalculatedPrice();
     notifyListeners();
-
   }
 
   emptyCartItems() {

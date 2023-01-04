@@ -9,6 +9,7 @@ import 'package:abc_cash_and_carry/providers/cart_items_provider.dart';
 import 'package:abc_cash_and_carry/providers/customer_profile_provider.dart';
 import 'package:abc_cash_and_carry/providers/user_data_provider.dart';
 import 'package:abc_cash_and_carry/screens/cart_screen.dart';
+import 'package:abc_cash_and_carry/screens/detail_screen.dart';
 import 'package:abc_cash_and_carry/screens/search_screen.dart';
 import 'package:abc_cash_and_carry/services/barcode_service.dart';
 import 'package:abc_cash_and_carry/services/cart_services.dart';
@@ -63,11 +64,12 @@ class _HomeScreenState extends State<HomeScreen> {
         .barcodeService(context: context, itemBarCode: barCode);
 
     if (res != null) {
-      AddToCartService.addItemToCart(
-        product: res,
-        context: context,
-        quantity: 1, ticketIDFromCartModel: '',
-      );
+      Navigator.push(
+          context,
+          CupertinoPageRoute(
+              builder: (context) => ProductDetailScreen(
+                    inventoryItemData: res,
+                  )));
     } else {
       CustomSnackBar.failedSnackBar(
           context: context, message: 'Item Not Found');
@@ -231,8 +233,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool showFloatingActionButton = false;
 
   ScrollController? scrollController;
-
-
 
   @override
   Widget build(BuildContext context) {
