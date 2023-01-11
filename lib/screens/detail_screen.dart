@@ -56,96 +56,99 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 300,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(widget
-                                      .inventoryItemData!.itemImageByPath ??
-                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcaxQL401fB8lgClXTuq6P_ld9fA7hyhShe4Wb9X5S68X-O-2cJVH9y0TAULpCZ3MwbNA&usqp=CAU'),
-                              fit: BoxFit.fill)),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: Text(
-                        widget.inventoryItemData!.name.toString(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 17),
+        body: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 300,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: NetworkImage(widget
+                                        .inventoryItemData!.itemImageByPath ??
+                                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcaxQL401fB8lgClXTuq6P_ld9fA7hyhShe4Wb9X5S68X-O-2cJVH9y0TAULpCZ3MwbNA&usqp=CAU'),
+                                fit: BoxFit.fill)),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15.0, vertical: 10),
-                      child: Text(
-                        '\$${widget.inventoryItemData!.retail.toString()}',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 17),
+                      SizedBox(
+                        height: 10,
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 13.0, right: 13),
-                      child: Text(
-                        widget.inventoryItemData!.description == null
-                            ? 'This test was a close one! While most staffers in our Test Kitchen preferred Pepsi in a blind test, that doesn’t mean that Coca-Cola was bad in any way.'
-                            : widget.inventoryItemData!.description.toString(),
-                        style: TextStyle(fontSize: 16),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Text(
+                          widget.inventoryItemData!.name.toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 17),
+                        ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15.0, vertical: 10),
+                        child: Text(
+                          '\$${widget.inventoryItemData!.retail.toString()}',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 17),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 13.0, right: 13),
+                        child: Text(
+                          widget.inventoryItemData!.description == null
+                              ? 'This test was a close one! While most staffers in our Test Kitchen preferred Pepsi in a blind test, that doesn’t mean that Coca-Cola was bad in any way.'
+                              : widget.inventoryItemData!.description
+                                  .toString(),
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            ButtonBar(
-              alignment: MainAxisAlignment.end,
-              children: [
-                SizedBox(
-                  width: 120,
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        // CustomLoader.showLoader(context: context);
-                        // await
-                        AddToCartService.addItemToCart(
-                            product: widget.inventoryItemData!,
-                            // ticketIDD: cart.cartItems![0].ticketId.toString(),
-                            context: context,
-                            quantity: quantity,
-                            ticketIDFromCartModel: data.cartItems!.isEmpty
-                                ? invoice.cartInvoiceNumber!
-                                : data.cartItems![0].ticketId.toString());
+              ButtonBar(
+                alignment: MainAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    width: 120,
+                    child: ElevatedButton(
+                        onPressed: () async {
+                          // CustomLoader.showLoader(context: context);
+                          // await
+                          AddToCartService.addItemToCart(
+                              product: widget.inventoryItemData!,
+                              // ticketIDD: cart.cartItems![0].ticketId.toString(),
+                              context: context,
+                              quantity: quantity,
+                              ticketIDFromCartModel: data.cartItems!.isEmpty
+                                  ? invoice.cartInvoiceNumber!
+                                  : data.cartItems![0].ticketId.toString());
 
-                        // CustomLoader.hideeLoader(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.orange.shade400),
-                      child: Text('Add to cart')),
-                ),
-                SizedBox(
-                  width: 120,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          customBottomSheet(false, context);
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.red.shade400),
-                      child: Text('Buy now')),
-                ),
-              ],
-            )
-          ],
+                          // CustomLoader.hideeLoader(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.orange.shade400),
+                        child: Text('Add to cart')),
+                  ),
+                  SizedBox(
+                    width: 120,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            customBottomSheet(false, context);
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.red.shade400),
+                        child: Text('Buy now')),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       );
     });

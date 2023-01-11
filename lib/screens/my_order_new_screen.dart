@@ -87,119 +87,162 @@ class _MyOrderNewScreenState extends State<MyOrderNewScreen> {
                               itemCount: data.previousOrders!.length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
-                                return Stack(
+                                return Column(
                                   children: [
-                                    InkWell(
-                                        onTap: () {
-                                          NavigationServices
-                                              .goNextAndKeepHistory(
-                                                  context: context,
-                                                  widget: CurrentOrderScreen(
-                                                      ticketID: data
-                                                          .previousOrders![
-                                                              index]
-                                                          .ticketId
-                                                          .toString()));
-                                        },
-                                        child: Card(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            elevation: 1.0,
-                                            child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
+                                    Stack(
+                                      children: [
+                                        InkWell(
+                                            onTap: () {
+                                              NavigationServices
+                                                  .goNextAndKeepHistory(
+                                                      context: context,
+                                                      widget: CurrentOrderScreen(
+                                                          ticketID: data
+                                                              .previousOrders![
+                                                                  index]
+                                                              .ticketId
+                                                              .toString()));
+                                            },
+                                            child: Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                elevation: 1.0,
+                                                child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
                                                         horizontal: 15.0),
-                                                child: Column(children: [
-                                                  SizedBox(height: 10),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        'Invoice no:',
-                                                        style: TextStyle(
-                                                            fontSize: 17,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                    child: Column(children: [
+                                                      SizedBox(height: 10),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            'Invoice no:',
+                                                            style: TextStyle(
+                                                                fontSize: 17,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          Text(data
+                                                              .previousOrders![
+                                                                  index]
+                                                              .ticketId
+                                                              .toString()),
+                                                        ],
                                                       ),
-                                                      Text(data
-                                                          .previousOrders![
-                                                              index]
-                                                          .ticketId
-                                                          .toString()),
-                                                    ],
-                                                  ),
-                                                  Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        data
-                                                                    .previousOrders![
-                                                                        index]
-                                                                    .isRejected ==
-                                                                true
-                                                            ? Text('Rejected',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .red))
-                                                            : Text('Pending',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .green)),
-                                                        TextButton(
-                                                            onPressed: () {
-                                                              reorderHandler(
-
-                                                                  user
-                                                                      .user!
-                                                                      .data!
-                                                                      .id!,
-                                                                  data
-                                                                      .previousOrders![
-                                                                          0]
-                                                                      .ticketId
-                                                                      .toString());
-                                                            },
-                                                            child: Text(
-                                                                "Again Order")),
-                                                      ])
-                                                ])))),
-                                    data.previousOrders![index].isRejected ==
-                                            true
-                                        ? Column(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
+                                                      Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            data.previousOrders![index].isRejected == false &&
+                                                                    data.previousOrders![index].adminStatus ==
+                                                                        false &&
+                                                                    data.previousOrders![index].isPulled ==
+                                                                        false &&
+                                                                    data.previousOrders![index].isInvoiced ==
+                                                                        false &&
+                                                                    data.previousOrders![index].delivered ==
+                                                                        false
+                                                                ? Text(
+                                                                    'Pending',
+                                                                    style: TextStyle(
+                                                                        color: Colors.orange[
+                                                                            400],
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold))
+                                                                : data.previousOrders![index].adminStatus == true &&
+                                                                        data.previousOrders![index].isPulled ==
+                                                                            false &&
+                                                                        data.previousOrders![index].delivered ==
+                                                                            false
+                                                                    ? data.previousOrders![index].isInvoiced ==
+                                                                                false &&
+                                                                            data.previousOrders![index].delivered ==
+                                                                                false
+                                                                        ? Text(
+                                                                            'Approve',
+                                                                            style:
+                                                                                TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
+                                                                          )
+                                                                        : data.previousOrders![index].adminStatus == true &&
+                                                                                data.previousOrders![index].isPulled == true &&
+                                                                                data.previousOrders![index].delivered == false &&
+                                                                                data.previousOrders![index].isInvoiced == false &&
+                                                                                data.previousOrders![index].isRejected == false
+                                                                            ? Text('Package Preparing')
+                                                                            : data.previousOrders![index].adminStatus == true && data.previousOrders![index].isPulled == true && data.previousOrders![index].delivered == false && data.previousOrders![index].isInvoiced == true && data.previousOrders![index].isRejected == false
+                                                                                ? Text('Ready for delivered')
+                                                                                : data.previousOrders![index].adminStatus == true && data.previousOrders![index].isPulled == true && data.previousOrders![index].delivered == true && data.previousOrders![index].isInvoiced == true && data.previousOrders![index].isRejected == false
+                                                                                    ? Text('Delivered')
+                                                                                    : data.previousOrders![index].adminStatus == false && data.previousOrders![index].isPulled == false && data.previousOrders![index].delivered == false && data.previousOrders![index].isInvoiced == false && data.previousOrders![index].isRejected == true
+                                                                                        ? Text('On Hold')
+                                                                                        : Text('Invalid')
+                                                                    : Text(''),
+                                                            TextButton(
+                                                                onPressed: () {
+                                                                  reorderHandler(
+                                                                      user
+                                                                          .user!
+                                                                          .data!
+                                                                          .id!,
+                                                                      data
+                                                                          .previousOrders![
+                                                                              0]
+                                                                          .ticketId
+                                                                          .toString());
+                                                                },
+                                                                child: Text(
+                                                                    "Again Order")),
+                                                          ])
+                                                    ])))),
+                                        data.previousOrders![index]
+                                                    .isRejected ==
+                                                true
+                                            ? Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
                                                         horizontal: 5.0,
                                                         vertical: 3),
-                                                child: Container(
-                                                  height: 74,
-                                                  width: double.infinity,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.red
-                                                          .withOpacity(0.3),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10)),
-                                                ),
-                                              ),
-                                              Text(
-                                                'Order OnHold'.toUpperCase(),
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 17),
+                                                    child: Container(
+                                                      height: 74,
+                                                      width: double.infinity,
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.red
+                                                              .withOpacity(0.3),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10)),
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 5.0),
+                                                  Text(
+                                                    'Order OnHold'
+                                                        .toUpperCase(),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 17,
+                                                        color: Colors.red),
+                                                  )
+                                                ],
                                               )
-                                            ],
-                                          )
-                                        : Container()
+                                            : Container(),
+                                      ],
+                                    ),
+                                    Divider(),
                                   ],
                                 );
-                              })
+                              }),
                     ]))),
           )));
     });

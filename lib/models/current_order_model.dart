@@ -37,7 +37,7 @@ class CurrentModel {
   String? email;
   String? city;
   String? zipcode;
-  String? country;
+  Null? country;
   bool? adminStatus;
   bool? delivered;
   String? orderAmount;
@@ -45,46 +45,47 @@ class CurrentModel {
   String? orderDate;
   bool? isPulled;
   bool? isRejected;
-  String? adminActionBy;
-  String? adminActionDate;
-  String? terminalNumber;
-  String? adminActionTime;
-  String? pulledBy;
-  String? deliveredBy;
-  String? pulledDate;
-  String? pulledTime;
-  String? deliveredDate;
-  String? deliveredTime;
-  String? rejectReason;
-  String? paymentMode;
-  String? cardTax;
+  Null? adminActionBy;
+  Null? adminActionDate;
+  Null? terminalNumber;
+  Null? adminActionTime;
+  Null? pulledBy;
+  Null? deliveredBy;
+  Null? pulledDate;
+  Null? pulledTime;
+  Null? deliveredDate;
+  Null? deliveredTime;
+  Null? rejectReason;
+  Null? paymentMode;
+  Null? cardTax;
   bool? isInvoiced;
-  String? invoicedBy;
-  String? invoicedDate;
+  Null? invoicedBy;
+  Null? invoicedDate;
   String? quantity;
   String? productName;
   String? price;
-  String? invoicedTime;
-  int? pullerEmployeeId;
+  Null? invoicedTime;
+  Null? pullerEmployeeId;
   String? customerCode;
-  String? invoiceEmployeeId;
-  String? dueDate;
-  String? isPaid;
-  String? rejectComments;
-  String? expectedDate;
-  String? finalDate;
+  Null? invoiceEmployeeId;
+  Null? dueDate;
+  Null? isPaid;
+  Null? rejectComments;
+  Null? expectedDate;
+  Null? finalDate;
   bool? needApproval;
   bool? acceptApproval;
-  String? changeQuantity;
-  String? comment;
-  String? orignalStatus;
-  String? balance;
+  Null? changeQuantity;
+  Null? comment;
+  Null? orignalStatus;
+  Null? balance;
   bool? orderDaysAlert;
   int? lineCounts;
   String? proCode;
   String? proSku;
   String? proImg;
   String? retail;
+  Null? invTotal;
 
   CurrentModel(
       {this.orderId,
@@ -143,7 +144,8 @@ class CurrentModel {
         this.proCode,
         this.proSku,
         this.proImg,
-        this.retail});
+        this.retail,
+        this.invTotal});
 
   CurrentModel.fromJson(Map<String, dynamic> json) {
     orderId = json['orderId'];
@@ -203,6 +205,7 @@ class CurrentModel {
     proSku = json['proSku'];
     proImg = json['proImg'];
     retail = json['retail'];
+    invTotal = json['invTotal'];
   }
 
   Map<String, dynamic> toJson() {
@@ -264,6 +267,7 @@ class CurrentModel {
     data['proSku'] = this.proSku;
     data['proImg'] = this.proImg;
     data['retail'] = this.retail;
+    data['invTotal'] = this.invTotal;
     return data;
   }
 }

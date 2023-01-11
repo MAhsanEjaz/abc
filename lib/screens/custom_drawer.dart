@@ -82,6 +82,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset('assets/images/logo.jpeg'),
+              Text(
+                'V (0.1)',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               DrawerItemCard(
                 title: 'Profile',
                 onPressed: () {

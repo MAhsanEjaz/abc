@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
               create: (context) => CustomerProfileProvider()),
           ChangeNotifierProvider(
               create: (context) => NewPreviousOrderProvider()),
-          ChangeNotifierProvider(create: (context) => CurrentOrderProvider())
+          ChangeNotifierProvider(create: (context) => CurrentOrderProvider()),
         ],
         child: MaterialApp(
           title: 'ABC Cash & Carry',
@@ -69,9 +69,7 @@ class MyApp extends StatelessWidget {
                   iconTheme: IconThemeData(color: Colors.black))),
           // home: LoginScreen(),
           home: SplashScreen(),
-
           // home: SuccessMessageScreen(),
-
           // home: NewCartScreen(),
           // home: NewProfileScreen(),
         ));

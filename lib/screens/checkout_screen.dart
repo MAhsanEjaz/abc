@@ -55,11 +55,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       userId: userId,
       zipCode: zipCode,
     );
-
-    if (res != true) {
-      CustomSnackBar.failedSnackBar(
-          context: context, message: 'Please try again');
-    }
   }
 
   Future<bool> makePaymentDialog() async {

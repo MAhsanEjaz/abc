@@ -220,12 +220,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> refresh() async {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      [
-        inventoryHandler(),
-        _cartItemHandler(),
-      ];
-    });
+    WidgetsBinding.instance.addPostFrameCallback(
+        (timeStamp) async => [inventoryHandler(), _cartItemHandler()]);
   }
 
   VideoPlayerController? videoPlayerController;
@@ -233,11 +229,11 @@ class _HomeScreenState extends State<HomeScreen> {
   bool showFloatingActionButton = false;
 
   ScrollController? scrollController;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+        onTap: () {
+
         FocusScope.of(context).unfocus();
       },
       child: WillPopScope(
@@ -266,7 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-              backgroundColor: Colors.white,
+              // backgroundColor: Colors.white,
               appBar: AppBar(
                 elevation: 0,
                 backgroundColor: Colors.white,
@@ -475,7 +471,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   loadMore() async {
-    // skipCount = getCount;
+    skipCount = getCount;
     getCount = getCount + 30;
     await inventoryHandler(isLoadmore: true);
   }

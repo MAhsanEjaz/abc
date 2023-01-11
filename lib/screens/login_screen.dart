@@ -46,7 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
           email: emailTextController.text);
 
       print('res----$res');
-
       CustomLoader.hideLoader(context);
 
       if (res) {
@@ -64,112 +63,105 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: Scaffold(
-        backgroundColor: Color(0xfff7f7f7),
-        resizeToAvoidBottomInset: false,
-        body: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: SizedBox(
-                      height: 150,
-                      child: Image.asset('assets/images/logo.jpeg')),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 0),
-                  margin: EdgeInsets.only(top: 0, left: 15, right: 15),
-                  height: 400,
-                  child: Column(
-                    children: [
-                      CustomTextField(
-                        labelText: 'Email',
-                        hintText: 'email@gmail.com',
-                        controller: emailTextController,
-                        type: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                      ),
-                      SizedBox(height: 10),
-
-                      CustomTextField(
-                        type: TextInputType.visiblePassword,
-                        onPressed: () {
-                          isPasswordVisible = !isPasswordVisible;
-                          setState(() {});
-                        },
-                        obscure: isPasswordVisible,
-                        labelText: 'Password',
-                        hintText: '********',
-                        controller: passwordTextController,
-                        postfixIcon: isPasswordVisible
-                            ? CupertinoIcons.eye
-                            : CupertinoIcons.eye_slash,
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                            onPressed: () {
-                              NavigationServices.goNextAndDoNotKeepHistory(
-                                  context: context,
-                                  widget: ForgetPasswordScreen());
-                            },
-                            child: Text('Forget Password')),
-                      ),
-                      SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                        child: MyCustomButton(
-                          buttonColor: Colors.orange,
-                          onPressed: () {
-                            if (_validation()) {
-                              _loginHandler();
-                            }
-                          },
-                          child: 'Login',
-                          // color: Colors.red,
-                          // buttonColor: Colors.pink,
-                        ),
-                      ),
-
-                      // Align(
-                      //   alignment: Alignment.topLeft,
-                      //   child: TextButton(
-                      //       onPressed: () {
-                      //         NavigationServices.goNextAndKeepHistory(
-                      //             context: context,
-                      //             widget: HomeScreenWithoutLogin());
-                      //       },
-                      //       child: SizedBox(
-                      //         width: 70,
-                      //         child: Row(
-                      //           mainAxisAlignment: MainAxisAlignment.start,
-                      //           children: [
-                      //             Text(
-                      //               'Guest',
-                      //               style: TextStyle(color: Colors.orange),
-                      //             ),
-                      //             Icon(
-                      //               Icons.arrow_forward,
-                      //               color: Colors.orange,
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       )),
-                      // ),
-                    ],
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Scaffold(
+            backgroundColor: Color(0xfff7f7f7),
+            resizeToAvoidBottomInset: false,
+            body: Center(
+                child: SingleChildScrollView(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                  Center(
+                    child: SizedBox(
+                        height: 150,
+                        child: Image.asset('assets/images/logo.jpeg')),
                   ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+                  Container(
+                      padding: EdgeInsets.only(top: 0),
+                      margin: EdgeInsets.only(top: 0, left: 15, right: 15),
+                      height: 400,
+                      child: Column(
+                        children: [
+                          CustomTextField(
+                            labelText: 'Email',
+                            hintText: 'email@gmail.com',
+                            controller: emailTextController,
+                            type: TextInputType.emailAddress,
+                            textInputAction: TextInputAction.next,
+                          ),
+                          SizedBox(height: 10),
+                          CustomTextField(
+                            type: TextInputType.visiblePassword,
+                            onPressed: () {
+                              isPasswordVisible = !isPasswordVisible;
+                              setState(() {});
+                            },
+                            obscure: isPasswordVisible,
+                            labelText: 'Password',
+                            hintText: '********',
+                            controller: passwordTextController,
+                            postfixIcon: isPasswordVisible
+                                ? CupertinoIcons.eye
+                                : CupertinoIcons.eye_slash,
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                                onPressed: () {
+                                  NavigationServices.goNextAndDoNotKeepHistory(
+                                      context: context,
+                                      widget: ForgetPasswordScreen());
+                                },
+                                child: Text('Forget Password')),
+                          ),
+                          SizedBox(height: 10),
+                          Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 6.0),
+                              child: MyCustomButton(
+                                buttonColor: Colors.orange,
+                                onPressed: () {
+                                  if (_validation()) {
+                                    _loginHandler();
+                                  }
+                                },
+                                child: 'Login',
+                                // color: Colors.red,
+                                // buttonColor: Colors.pink,
+                              )),
+
+                          // Align(
+                          //   alignment: Alignment.topLeft,
+                          //   child: TextButton(
+                          //       onPressed: () {
+                          //         NavigationServices.goNextAndKeepHistory(
+                          //             context: context,
+                          //             widget: HomeScreenWithoutLogin());
+                          //       },
+                          //       child: SizedBox(
+                          //         width: 70,
+                          //         child: Row(
+                          //           mainAxisAlignment: MainAxisAlignment.start,
+                          //           children: [
+                          //             Text(
+                          //               'Guest',
+                          //               style: TextStyle(color: Colors.orange),
+                          //             ),
+                          //             Icon(
+                          //               Icons.arrow_forward,
+                          //               color: Colors.orange,
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       )),
+                          // ),
+                        ],
+                      ))
+                ])))));
   }
 
   _launchURL(String _url) async {
