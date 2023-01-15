@@ -89,9 +89,6 @@ class _CartScreenState extends State<CartScreen> {
       getCartItemsHandler();
       getCartInvoiceNumberHandler();
     });
-    // WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-    //
-    // });
   }
 
   @override
@@ -112,7 +109,7 @@ class _CartScreenState extends State<CartScreen> {
               children: [
                 Text(
                   'Total Items: ${cart.cartItems!.length}',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
                 ),
                 // Text(
                 //   'Total Items: ${cart.cartItems!.length}',
@@ -131,11 +128,11 @@ class _CartScreenState extends State<CartScreen> {
                             radius: 10,
                           )
                         : Text(
-                            'Cart Invoice: ${invoice.cartInvoiceNumber.toString()}',
+                            'Cart Invoice: ${cart.cartItems!.isEmpty ? dataInvoice.cartInvoiceNumber : cart.cartItems![0].ticketId}',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 12),
+                                fontSize: 13),
                           ),
                   ),
                 );
@@ -164,7 +161,7 @@ class _CartScreenState extends State<CartScreen> {
                                           color: Colors.orange.withOpacity(0.1),
                                           width: 1),
                                       borderRadius: BorderRadius.circular(10)),
-                                  elevation: 5,
+                                  elevation: 1,
                                   child: Column(
                                     children: [
                                       Padding(
@@ -184,8 +181,17 @@ class _CartScreenState extends State<CartScreen> {
                                                 width: 80,
                                                 decoration: BoxDecoration(
                                                     image: DecorationImage(
-                                                        image: NetworkImage(
-                                                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfTDL4eFW-ISJtNFLFMBWXgM8Icd62vPrazQ&usqp=CAU'),
+                                                        image: NetworkImage(cart
+                                                                    .cartItems![
+                                                                        index]
+                                                                    .imagePath ==
+                                                                null
+                                                            ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcaxQL401fB8lgClXTuq6P_ld9fA7hyhShe4Wb9X5S68X-O-2cJVH9y0TAULpCZ3MwbNA&usqp=CAU'
+                                                            : cart
+                                                                .cartItems![
+                                                                    index]
+                                                                .imagePath
+                                                                .toString()),
                                                         fit: BoxFit.cover)),
                                               ),
                                             ),
@@ -496,7 +502,10 @@ class _CartScreenState extends State<CartScreen> {
                   width: double.infinity,
                   height: 45,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Colors.orange),
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.orange,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0))),
                     onPressed: () async {
                       CustomLoader.showLoader(context: context);
 
@@ -510,7 +519,7 @@ class _CartScreenState extends State<CartScreen> {
                     // style: ElevatedButton.styleFrom(primary: Colors.orange),
                     child: Text(
                       'Checkout',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ),
                 );
