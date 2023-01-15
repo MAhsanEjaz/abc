@@ -10,8 +10,6 @@ import 'package:abc_cash_and_carry/providers/user_data_provider.dart';
 import 'package:abc_cash_and_carry/screens/cart_screen.dart';
 import 'package:abc_cash_and_carry/screens/zoom.dart';
 import 'package:abc_cash_and_carry/services/cart_invoice_number_service.dart';
-import 'package:abc_cash_and_carry/services/increase_item_qty_in_cart_service.dart';
-import 'package:abc_cash_and_carry/services/remove_in_cart_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../helper_services/custom_loader.dart';
@@ -73,7 +71,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 image: NetworkImage(widget
                                         .inventoryItemData!.itemImageByPath ??
                                     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcaxQL401fB8lgClXTuq6P_ld9fA7hyhShe4Wb9X5S68X-O-2cJVH9y0TAULpCZ3MwbNA&usqp=CAU'),
-                                fit: BoxFit.fill)),
+                                fit: BoxFit.fill,
+                                isAntiAlias: true)),
                       ),
                       SizedBox(
                         height: 10,
