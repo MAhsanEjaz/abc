@@ -11,7 +11,7 @@ String baseUrl = 'http://45.35.97.246:5595/abcdwebapi/api/';
 // String loginUrl = baseUrl+'/login';
 String loginUrl = baseUrl + 'Security/Login';
 // String getAllCategoriesUrl = baseUrl+'/getAllCategories';
-String getAllCategoriesUrl = baseUrl + 'Inventory/ItemCategoryGet';
+String getAllCategoriesUrl = baseUrl + 'Security/OpenItemCategoryGet';
 String getSubCategoriesByCategoryUrl =
     baseUrl + 'Inventory/ItemSubCategoryGetByCategoryID/';
 String getMoreSubCategoriesByCategoryUrl = baseUrl + 'Inventory/ItemGetByCategoryID/12';
