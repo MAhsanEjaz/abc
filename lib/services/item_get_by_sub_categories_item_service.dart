@@ -1,24 +1,27 @@
 import 'package:abc_cash_and_carry/helper_services/custom_get_request_service.dart';
 import 'package:abc_cash_and_carry/models/inventory_item_get_model.dart';
+import 'package:abc_cash_and_carry/models/products_by_category_model.dart';
 import 'package:abc_cash_and_carry/providers/item_get_by_sub_categories_item_provider.dart';
+import 'package:abc_cash_and_carry/providers/products_by_category_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 import '../config/api_urls.dart';
-import '../models/item_get_by_sub_categories_item_model.dart';
 
 class ItemGetBySubCategoryIDService {
   Future itemGetBuSubCategoriesService(
-      {required BuildContext context, required String catId}) async {
+      {required BuildContext context,
+      required String id,
+      required String name}) async {
     try {
       var res = await GetRequestService().httpGetRequest(
-          url: getMoreSubCategoriesByCategoryUrlId + catId, context: context);
+          url: '$productsByCategory?name=$name&id=$id', context: context);
       if (res != null) {
-        InventoryItemGetModel productModel =
-            InventoryItemGetModel.fromJson(res);
+        ProductByCategoryModel productModel =
+            ProductByCategoryModel.fromJson(res);
 
-        Provider.of<ItemGetBySubCategoryIDProvider>(context, listen: false)
-            .updateData(newItemData: productModel.data);
+        Provider.of<ProductsByCategoryProvider>(context, listen: false)
+            .getProducts(newProductsByCategory: productModel.data);
         return true;
       } else {
         return false;

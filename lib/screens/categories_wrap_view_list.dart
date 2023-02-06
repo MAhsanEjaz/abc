@@ -47,8 +47,8 @@ class _CategoriesWrapViewScreenState extends State<CategoriesWrapViewScreen> {
                     NavigationServices.goNextAndKeepHistory(
                         context: context,
                         widget: SubCategoryScreen(
-                          text: data.categories![index].name.toString(),
-                          catId: data.categories![index].id.toString(),
+                          // text: data.categories![index].name.toString(),
+                          // catId: data.categories![index].id.toString(),
                         ));
                   },
                   child: CategoryCard(

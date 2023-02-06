@@ -9,6 +9,7 @@ import 'package:abc_cash_and_carry/providers/item_get_sub_categories_provider.da
 import 'package:abc_cash_and_carry/providers/item_sub_category_provider.dart';
 import 'package:abc_cash_and_carry/providers/my_orders_provider.dart';
 import 'package:abc_cash_and_carry/providers/new_previous_order_provider.dart';
+import 'package:abc_cash_and_carry/providers/new_sub_category_provider.dart';
 import 'package:abc_cash_and_carry/providers/order_provider.dart';
 import 'package:abc_cash_and_carry/providers/payment_methods_provider.dart';
 import 'package:abc_cash_and_carry/providers/products_provider.dart';
@@ -19,6 +20,9 @@ import 'package:abc_cash_and_carry/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
+
+import 'providers/filter_provider.dart';
+import 'providers/products_by_category_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,6 +60,10 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
               create: (context) => NewPreviousOrderProvider()),
           ChangeNotifierProvider(create: (context) => CurrentOrderProvider()),
+          ChangeNotifierProvider(create: (context) => NewSubCategoryProvider()),
+          ChangeNotifierProvider(
+              create: (context) => ProductsByCategoryProvider()),
+          ChangeNotifierProvider(create: (context) => FilterProvider()),
         ],
         child: MaterialApp(
           title: 'ABC Cash & Carry',

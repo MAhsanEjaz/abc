@@ -9,7 +9,7 @@ class CategoriesApiServices {
   Future getAllCategories({required BuildContext context}) async {
     try {
       var res = await GetRequestService()
-          .httpGetRequest(url: getAllCategoriesUrl, context: context);
+          .httpGetRequest(url: openItemCategoryGet, context: context);
 
       if (res != null) {
         Category categoriesModel = Category.fromJson(res);

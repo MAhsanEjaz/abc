@@ -25,19 +25,13 @@ class _CategoriesListViewHorizontalState
     // CustomLoader.hideeLoader(context);
   }
 
-
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getAllCategoriesList();
-
-
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -85,10 +79,11 @@ class _CategoriesListViewHorizontalState
                             NavigationServices.goNextAndKeepHistory(
                                 context: context,
                                 widget: SubCategoryScreen(
-                                    text: data.categories![index].name
-                                        .toString(),
-                                    catId:
-                                        data.categories![index].id.toString())
+                                    // text: data.categories![index].name
+                                    //     .toString(),
+                                    // catId:
+                                    //     data.categories![index].id.toString()
+                                    )
                                 // ProductsGridviewScreen(
                                 //   categorySelected: data.categories![index].name,
                                 // )
@@ -176,20 +171,20 @@ class _CategoriesListViewHorizontal1State
                         width: 190,
                         child: InkWell(
                             onTap: () {
-                              NavigationServices.goNextAndKeepHistory(
-                                  context: context,
-                                  widget: SubCategoryScreen1(
-                                    text:
-                                        data.categories![index].name.toString(),
-                                    catId:
-                                        data.categories![index].id.toString(),
-                                  )
-
-                                  // ProductsGridviewScreen(
-                                  //   categorySelected: data.categories![index].name,
-                                  // )
-
-                                  );
+                              // NavigationServices.goNextAndKeepHistory(
+                              //     context: context,
+                              //     widget: SubCategoryScreen1(
+                              //       text:
+                              //           data.categories![index].name.toString(),
+                              //       catId:
+                              //           data.categories![index].id.toString(),
+                              //     )
+                              //
+                              //     // ProductsGridviewScreen(
+                              //     //   categorySelected: data.categories![index].name,
+                              //     // )
+                              //
+                              //     );
                             },
                             child: CategoryCard(
                               color: Colors.primaries[index],
