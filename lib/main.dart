@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => CurrentOrderProvider()),
         ],
         child: MaterialApp(
-          title: 'ABC Cash & Carry',
+          title: 'ABC Discounts',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
               useMaterial3: true,
