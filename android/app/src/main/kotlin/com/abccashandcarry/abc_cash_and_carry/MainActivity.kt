@@ -1,4 +1,4 @@
-package com.abccashandcarry.abc_cash_and_carry
+package com.abc.discounts
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterFragmentActivity

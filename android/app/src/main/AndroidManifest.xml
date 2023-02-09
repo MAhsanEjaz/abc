@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.abccashandcarry.abc_cash_and_carry">
+    package="com.abc.discounts">
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <application
-        android:label="ABC"
+        android:label="ABC Discounts"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity
