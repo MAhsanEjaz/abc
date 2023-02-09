@@ -6,8 +6,6 @@ class ItemSubCategoryProvider extends ChangeNotifier {
 
   updateSubCategories({List<SubCategories>? newItemSubCategory}) {
     itemSubCategory = newItemSubCategory;
-
-
     notifyListeners();
   }
 }
