@@ -47,7 +47,7 @@ class CurrentModel {
   bool? isRejected;
   String? adminActionBy;
   String? adminActionDate;
-  String? terminalNumber;
+  Null? terminalNumber;
   String? adminActionTime;
   String? pulledBy;
   String? deliveredBy;
@@ -65,18 +65,18 @@ class CurrentModel {
   String? productName;
   String? price;
   String? invoicedTime;
-  String? pullerEmployeeId;
+  int? pullerEmployeeId;
   String? customerCode;
-  String? invoiceEmployeeId;
-  String? dueDate;
+  int? invoiceEmployeeId;
+  Null? dueDate;
   String? isPaid;
-  String? rejectComments;
+  Null? rejectComments;
   String? expectedDate;
-  String? finalDate;
+  Null? finalDate;
   bool? needApproval;
   bool? acceptApproval;
   Null? changeQuantity;
-  Null? comment;
+  String? comment;
   String? orignalStatus;
   Null? balance;
   bool? orderDaysAlert;
@@ -89,63 +89,63 @@ class CurrentModel {
 
   CurrentModel(
       {this.orderId,
-      this.userId,
-      this.ticketId,
-      this.customerName,
-      this.billingAddress,
-      this.phone,
-      this.email,
-      this.city,
-      this.zipcode,
-      this.country,
-      this.adminStatus,
-      this.delivered,
-      this.orderAmount,
-      this.taxAmount,
-      this.orderDate,
-      this.isPulled,
-      this.isRejected,
-      this.adminActionBy,
-      this.adminActionDate,
-      this.terminalNumber,
-      this.adminActionTime,
-      this.pulledBy,
-      this.deliveredBy,
-      this.pulledDate,
-      this.pulledTime,
-      this.deliveredDate,
-      this.deliveredTime,
-      this.rejectReason,
-      this.paymentMode,
-      this.cardTax,
-      this.isInvoiced,
-      this.invoicedBy,
-      this.invoicedDate,
-      this.quantity,
-      this.productName,
-      this.price,
-      this.invoicedTime,
-      this.pullerEmployeeId,
-      this.customerCode,
-      this.invoiceEmployeeId,
-      this.dueDate,
-      this.isPaid,
-      this.rejectComments,
-      this.expectedDate,
-      this.finalDate,
-      this.needApproval,
-      this.acceptApproval,
-      this.changeQuantity,
-      this.comment,
-      this.orignalStatus,
-      this.balance,
-      this.orderDaysAlert,
-      this.lineCounts,
-      this.proCode,
-      this.proSku,
-      this.proImg,
-      this.retail,
-      this.invTotal});
+        this.userId,
+        this.ticketId,
+        this.customerName,
+        this.billingAddress,
+        this.phone,
+        this.email,
+        this.city,
+        this.zipcode,
+        this.country,
+        this.adminStatus,
+        this.delivered,
+        this.orderAmount,
+        this.taxAmount,
+        this.orderDate,
+        this.isPulled,
+        this.isRejected,
+        this.adminActionBy,
+        this.adminActionDate,
+        this.terminalNumber,
+        this.adminActionTime,
+        this.pulledBy,
+        this.deliveredBy,
+        this.pulledDate,
+        this.pulledTime,
+        this.deliveredDate,
+        this.deliveredTime,
+        this.rejectReason,
+        this.paymentMode,
+        this.cardTax,
+        this.isInvoiced,
+        this.invoicedBy,
+        this.invoicedDate,
+        this.quantity,
+        this.productName,
+        this.price,
+        this.invoicedTime,
+        this.pullerEmployeeId,
+        this.customerCode,
+        this.invoiceEmployeeId,
+        this.dueDate,
+        this.isPaid,
+        this.rejectComments,
+        this.expectedDate,
+        this.finalDate,
+        this.needApproval,
+        this.acceptApproval,
+        this.changeQuantity,
+        this.comment,
+        this.orignalStatus,
+        this.balance,
+        this.orderDaysAlert,
+        this.lineCounts,
+        this.proCode,
+        this.proSku,
+        this.proImg,
+        this.retail,
+        this.invTotal});
 
   CurrentModel.fromJson(Map<String, dynamic> json) {
     orderId = json['orderId'];

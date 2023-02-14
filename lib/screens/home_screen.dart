@@ -471,8 +471,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   loadMore() async {
-    skipCount = getCount;
-    getCount = getCount + 30;
+    // skipCount = getCount;
+    getCount = getCount + 10;
     await inventoryHandler(isLoadmore: true);
   }
 }

@@ -47,4 +47,12 @@ class LocalStorageService {
     return _prefs.get('setBoard');
 
   }
+
+
+
+
+
+
+
+
 }

@@ -17,10 +17,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailTextController =
-      TextEditingController(text: 'usmanamjad555@test.com');
+  TextEditingController emailTextController = TextEditingController(text: '');
   TextEditingController passwordTextController =
-      TextEditingController(text: '123456');
+  TextEditingController(text: '');
   bool isPasswordVisible = true;
 
   _validation() {
@@ -112,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             alignment: Alignment.centerRight,
                             child: TextButton(
                                 onPressed: () {
-                                  NavigationServices.goNextAndDoNotKeepHistory(
+                                  NavigationServices.goNextAndKeepHistory(
                                       context: context,
                                       widget: ForgetPasswordScreen());
                                 },
