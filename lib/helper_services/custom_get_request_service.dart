@@ -10,7 +10,8 @@ import 'internet_connectivity_service.dart';
 class GetRequestService {
   Future httpGetRequest(
       {required String url, required BuildContext context}) async {
-    print('get request url -->$url');
+
+    // print('get request url -->$url');
 
     try {
       bool isConnected = await InternetCheckService.checkInternet();

@@ -29,12 +29,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   bool switchTime = false;
 
+  String? payment;
+
   Map<String, dynamic>? paymentIntentData;
 
   void saveCustomerOrderHandler(
       String email,
       String phone,
       String billingAddress,
+      String? paymentMode,
       String orderAmount,
       String city,
       String customerName,
@@ -48,6 +51,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       email: email,
       phone: phone,
       billingAddress: billingAddress,
+      paymentMode: paymentMode,
       orderAmount: orderAmount,
       city: city,
       customerName: customerName,
@@ -167,6 +171,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                             user.user!.data!.phoneNumber
                                                 .toString(),
                                             user.user!.data!.address.toString(),
+                                            'Stripe',
                                             data.totalCalculatedPrice
                                                 .toString(),
                                             user.user!.data!.city.toString(),
@@ -191,6 +196,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         user.user!.data!.email.toString(),
                                         user.user!.data!.phoneNumber.toString(),
                                         user.user!.data!.address.toString(),
+                                        'COD',
                                         data.totalCalculatedPrice.toString(),
                                         user.user!.data!.city.toString(),
                                         // '${DateTime.now().year}-0${DateTime.now().month}-${DateTime.now().day}',

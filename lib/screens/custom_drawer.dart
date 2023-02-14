@@ -42,22 +42,23 @@ class _CustomDrawerState extends State<CustomDrawer> {
     FlutterWebBrowser.openWebPage(
         safariVCOptions: SafariViewControllerOptions(
             barCollapsingEnabled: true,
+            modalPresentationStyle: UIModalPresentationStyle.blurOverFullScreen,
             modalPresentationCapturesStatusBarAppearance: true,
             entersReaderIfAvailable: true,
             preferredBarTintColor: Colors.orange,
             dismissButtonStyle: SafariViewControllerDismissButtonStyle.done,
-            modalPresentationStyle: UIModalPresentationStyle.popover,
             preferredControlTintColor: Colors.orange),
         customTabsOptions: CustomTabsOptions(
             instantAppsEnabled: true,
             urlBarHidingEnabled: true,
             showTitle: true),
-        url: 'http://45.35.97.246:5960/Faqs');
+        url: 'http://www.abc-discounts.com/Faqs');
   }
 
   Future<void> contactWeb() async {
     FlutterWebBrowser.openWebPage(
         safariVCOptions: SafariViewControllerOptions(
+            modalPresentationStyle: UIModalPresentationStyle.blurOverFullScreen,
             dismissButtonStyle: SafariViewControllerDismissButtonStyle.done,
             barCollapsingEnabled: true,
             modalPresentationCapturesStatusBarAppearance: true,
@@ -67,7 +68,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             instantAppsEnabled: true,
             urlBarHidingEnabled: true,
             showTitle: true),
-        url: 'http://45.35.97.246:5960/ContactUs');
+        url: 'http://www.abc-discounts.com/ContactUs?area=Home');
   }
 
   @override
