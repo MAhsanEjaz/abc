@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:abc_cash_and_carry/helper_services/token_save_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +9,6 @@ import 'internet_connectivity_service.dart';
 class GetRequestService {
   Future httpGetRequest(
       {required String url, required BuildContext context}) async {
-
     // print('get request url -->$url');
 
     try {
@@ -33,8 +31,8 @@ class GetRequestService {
         headers: headers,
       );
 
-      print('get response status code -->${response.statusCode}');
-      log('get request body -->${response.body}');
+      // print('get response status code -->${response.statusCode}');
+      // log('get request body -->${response.body}');
 
       var jsonDecoded = json.decode(response.body);
 
