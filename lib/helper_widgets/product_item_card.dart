@@ -60,7 +60,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
           color: Colors.white,
           padding: EdgeInsets.all(8),
           margin: EdgeInsets.all(5),
-          height: 280,
+          height: 300,
           width: 150,
           alignment: Alignment.center,
           child: InkWell(
@@ -96,7 +96,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                   thickness: 2,
                 ),
                 Container(
-                  height: 15,
+                  height: 20,
                   child: Text(
                     '${widget.product.name}',
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),

@@ -174,7 +174,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcaxQL401fB8lgClXTuq6P_ld9fA7hyhShe4Wb9X5S68X-O-2cJVH9y0TAULpCZ3MwbNA&usqp=CAU'
                             : widget.inventoryItemData!.itemImageByPath
                                 .toString(),
-                        price: widget.inventoryItemData!.retail.toString(),
+                        price:
+                            '\$ ${widget.inventoryItemData!.retail.toString()}',
                       ),
 
                       Spacer(),

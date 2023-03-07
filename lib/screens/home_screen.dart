@@ -229,11 +229,11 @@ class _HomeScreenState extends State<HomeScreen> {
   bool showFloatingActionButton = false;
 
   ScrollController? scrollController;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-
+      onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: WillPopScope(

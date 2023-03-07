@@ -12,7 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SubCategoryScreen extends StatefulWidget {
-  const SubCategoryScreen({Key? key}) : super(key: key);
+  String? catName;
+  String? id;
+
+  SubCategoryScreen({this.catName, this.id});
 
   @override
   State<SubCategoryScreen> createState() => _SubCategoryScreenState();
@@ -21,15 +24,16 @@ class SubCategoryScreen extends StatefulWidget {
 class _SubCategoryScreenState extends State<SubCategoryScreen> {
   getNewCategoriesHandler() async {
     CustomLoader.showLoader(context: context);
-    await SubCategoryService().getSubGategoriesByCatId(context: context);
+    bool res =
+        await SubCategoryService().getSubGategoriesByCatId(context: context);
+    print('filter--->${res}');
     CustomLoader.hideeLoader(context);
   }
 
   getProductsByCategoryItemsHandler() async {
     CustomLoader.showLoader(context: context);
-
-    await ItemGetBySubCategoryIDService()
-        .itemGetBuSubCategoriesService(context: context, id: '1', name: 'Auto');
+    await ItemGetBySubCategoryIDService().itemGetBuSubCategoriesService(
+        context: context, id: widget.id!, name: widget.catName!);
     CustomLoader.hideeLoader(context);
   }
 
@@ -73,7 +77,8 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                       : selectItems!),
                   items: data.category!.map((e) {
                     return DropdownMenuItem(
-                        value: e.subCategory,
+                        value:
+                            e.subCategory == null ? SizedBox() : e.subCategory,
                         onTap: () async {
                           selectItems = e.subCategory;
                           WidgetsBinding.instance
@@ -87,73 +92,68 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                           print(selectItems);
                           setState(() {});
                         },
-                        child: Text(e.subCategory.toString()));
+                        child: e.subCategory == null
+                            ? Container(height: 0)
+                            : Text(e.subCategory.toString()));
                   }).toList(),
                   onChanged: (_) {}),
             )
           ],
         ),
-        body: data.category!.isEmpty || filter.products!.isEmpty
-            ? Center(
-                child: Text(
-                'No Category Available',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ))
-            : SafeArea(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      showedProducts == true
-                          ? Consumer<FilterProvider>(
-                              builder: (context, filter, _) {
-                              List<Widget> widget = [];
-                              filter.products!.forEach((element) {
-                                widget.add(InkWell(
-                                  onTap: () {
-                                    NavigationServices.goNextAndKeepHistory(
-                                        context: context,
-                                        widget: ProductDetailScreen(
-                                            inventoryItemData: element));
-                                  },
-                                  child: ProductItemCard(
-                                    product: element,
-                                  ),
-                                ));
-                              });
-                              return Align(
-                                alignment: Alignment.center,
-                                child: Wrap(
-                                  children: widget,
-                                ),
-                              );
-                            })
-                          : Consumer<ProductsByCategoryProvider>(
-                              builder: (context, data, _) {
-                              List<Widget> widget = [];
-                              data.productsByCategory!.forEach((element) {
-                                widget.add(InkWell(
-                                  onTap: () {
-                                    NavigationServices.goNextAndKeepHistory(
-                                        context: context,
-                                        widget: ProductDetailScreen(
-                                            inventoryItemData: element));
-                                  },
-                                  child: ProductItemCard(
-                                    product: element,
-                                  ),
-                                ));
-                              });
-                              return Align(
-                                alignment: Alignment.center,
-                                child: Wrap(
-                                  children: widget,
-                                ),
-                              );
-                            })
-                    ],
-                  ),
-                ),
-              ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                showedProducts == true
+                    ? Consumer<FilterProvider>(builder: (context, filter, _) {
+                        List<Widget> widget = [];
+                        filter.products!.forEach((element) {
+                          widget.add(InkWell(
+                            onTap: () {
+                              NavigationServices.goNextAndKeepHistory(
+                                  context: context,
+                                  widget: ProductDetailScreen(
+                                      inventoryItemData: element));
+                            },
+                            child: ProductItemCard(
+                              product: element,
+                            ),
+                          ));
+                        });
+                        return Align(
+                          alignment: Alignment.center,
+                          child: Wrap(
+                            children: widget,
+                          ),
+                        );
+                      })
+                    : Consumer<ProductsByCategoryProvider>(
+                        builder: (context, data, _) {
+                        List<Widget> widget = [];
+                        data.productsByCategory!.forEach((element) {
+                          widget.add(InkWell(
+                            onTap: () {
+                              NavigationServices.goNextAndKeepHistory(
+                                  context: context,
+                                  widget: ProductDetailScreen(
+                                      inventoryItemData: element));
+                            },
+                            child: ProductItemCard(
+                              product: element,
+                            ),
+                          ));
+                        });
+                        return Align(
+                          alignment: Alignment.center,
+                          child: Wrap(
+                            children: widget,
+                          ),
+                        );
+                      })
+              ],
+            ),
+          ),
+        ),
       );
     });
   }

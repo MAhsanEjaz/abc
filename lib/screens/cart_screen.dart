@@ -506,16 +506,18 @@ class _CartScreenState extends State<CartScreen> {
                         primary: Colors.orange,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(0))),
-                    onPressed: () async {
-                      CustomLoader.showLoader(context: context);
+                    onPressed: quantityControl.text == '0'
+                        ? null
+                        : () async {
+                            CustomLoader.showLoader(context: context);
 
-                      await Future.delayed(Duration(seconds: 2));
+                            await Future.delayed(Duration(seconds: 2));
 
-                      CustomLoader.hideeLoader(context);
+                            CustomLoader.hideeLoader(context);
 
-                      NavigationServices.goNextAndKeepHistory(
-                          context: context, widget: CheckoutScreen());
-                    },
+                            NavigationServices.goNextAndKeepHistory(
+                                context: context, widget: CheckoutScreen());
+                          },
                     // style: ElevatedButton.styleFrom(primary: Colors.orange),
                     child: Text(
                       'Checkout',
@@ -525,7 +527,7 @@ class _CartScreenState extends State<CartScreen> {
                 );
               })
             ],
-          ),
+            ),
         );
       }
     });

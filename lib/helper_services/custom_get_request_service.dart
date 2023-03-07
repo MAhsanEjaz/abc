@@ -33,8 +33,8 @@ class GetRequestService {
         headers: headers,
       );
 
-      // print('get response status code -->${response.statusCode}');
-      // log('get request body -->${response.body}');
+      print('get response status code -->${response.statusCode}');
+      log('get request body -->${response.body}');
 
       var jsonDecoded = json.decode(response.body);
 

@@ -77,7 +77,10 @@ class _CustomerProfileScreenViewState extends State<CustomerProfileScreenView> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
-                elevation: 6,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    side: BorderSide(color: Colors.black12)),
+                elevation: 1,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -106,6 +109,7 @@ class _CustomerProfileScreenViewState extends State<CustomerProfileScreenView> {
                                             controller: fullNameControl,
                                           ),
                                           CustomTextField(
+                                            type: TextInputType.number,
                                             hintText: 'Phone',
                                             controller: phoneControl,
                                           ),

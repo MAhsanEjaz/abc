@@ -12,25 +12,30 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 120,
-      width: 170,
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+    return category!.name == null
+        ? SizedBox()
+        : SizedBox(
+            height: 120,
+            width: 170,
+            child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
 
-        elevation: 2,
-        // color: Color(category.color!),
-        color: color,
-        margin: EdgeInsets.all(6),
+              elevation: 2,
+              // color: Color(category.color!),
+              color: color,
+              margin: EdgeInsets.all(6),
 
-        child: Center(
-          child: Text(
-            category!.name.toString(),
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-          ),
-        ),
-      ),
-    );
+              child: Center(
+                child: Text(
+                  category!.name == null ? '' : category!.name.toString(),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14),
+                ),
+              ),
+            ),
+          );
   }
 }

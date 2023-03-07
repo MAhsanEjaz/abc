@@ -25,6 +25,7 @@ class _CategoriesListViewHorizontalState
     // CustomLoader.hideeLoader(context);
   }
 
+
   @override
   void initState() {
     super.initState();
@@ -72,25 +73,19 @@ class _CategoriesListViewHorizontalState
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
                     physics: AlwaysScrollableScrollPhysics(),
-                    itemCount: data.categories!.length,
+                    itemCount: 18,
                     itemBuilder: (context, index) {
                       return InkWell(
                           onTap: () async {
                             NavigationServices.goNextAndKeepHistory(
                                 context: context,
                                 widget: SubCategoryScreen(
-                                    // text: data.categories![index].name
-                                    //     .toString(),
-                                    // catId:
-                                    //     data.categories![index].id.toString()
-                                    )
-                                // ProductsGridviewScreen(
-                                //   categorySelected: data.categories![index].name,
-                                // )
-                                );
+                                  catName: data.categories![index].name,
+                                  id: data.categories![index].id.toString(),
+                                ));
                           },
                           child: CategoryCard(
-                            color: Colors.primaries[index].withOpacity(0.8),
+                            color: Colors.primaries[index].withOpacity(0.5),
                             category: data.categories![index],
                           ));
                     }))

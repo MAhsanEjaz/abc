@@ -40,15 +40,15 @@ class _CategoriesWrapViewScreenState extends State<CategoriesWrapViewScreen> {
             child: ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: data.categories!.length,
+              itemCount: 18,
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
                     NavigationServices.goNextAndKeepHistory(
                         context: context,
                         widget: SubCategoryScreen(
-                          // text: data.categories![index].name.toString(),
-                          // catId: data.categories![index].id.toString(),
+                          id: data.categories![index].id.toString(),
+                          catName: data.categories![index].name.toString(),
                         ));
                   },
                   child: CategoryCard(

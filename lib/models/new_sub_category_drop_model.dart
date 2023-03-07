@@ -29,9 +29,9 @@ class SubCategory {
 
 class NewSubCategory {
   int? id;
-  Null? categoryId;
+  int? categoryId;
   String? subCategory;
-  Null? parentCategoryName;
+  String? parentCategoryName;
 
   NewSubCategory({this.id, this.categoryId, this.subCategory, this.parentCategoryName});
 
