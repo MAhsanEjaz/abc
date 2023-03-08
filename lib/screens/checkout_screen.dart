@@ -132,26 +132,29 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             },
                       text: 'Cash on Delivery',
                     ),
-                    CustomCheckPick(
-                      iconData: FontAwesomeIcons.moneyBillTransfer,
-                      color: color == 1 ? true : false,
-                      onTap: switchTime == true
-                          ? null
-                          : () async {
-                              switchTime == true
-                                  ? CustomSnackBar.showSnackBar(
-                                      context: context,
-                                      message:
-                                          'You have already pay please place you order')
-                                  : await makePayment(
-                                      cart.totalCalculatedPrice.toString(),
-                                      cart.cartItems![0].ticketId.toString());
-                              color = 1;
 
-                              setState(() {});
-                            },
-                      text: 'Stripe',
-                    ),
+                    // Stripe method here-------->>>>>>
+
+                    // CustomCheckPick(
+                    //   iconData: FontAwesomeIcons.moneyBillTransfer,
+                    //   color: color == 1 ? true : false,
+                    //   onTap: switchTime == true
+                    //       ? null
+                    //       : () async {
+                    //           switchTime == true
+                    //               ? CustomSnackBar.showSnackBar(
+                    //                   context: context,
+                    //                   message:
+                    //                       'You have already pay please place you order')
+                    //               : await makePayment(
+                    //                   cart.totalCalculatedPrice.toString(),
+                    //                   cart.cartItems![0].ticketId.toString());
+                    //           color = 1;
+                    //
+                    //           setState(() {});
+                    //         },
+                    //   text: 'Stripe',
+                    // ),
 
                     Consumer<CartItemsProvider>(builder: (context, data, _) {
                       return SizedBox(
@@ -190,26 +193,32 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       },
                                 child: Text('Place Order'))
                             : ElevatedButton(
-                                onPressed: () {
-                                  if (validate()) {
-                                    saveCustomerOrderHandler(
-                                        user.user!.data!.email.toString(),
-                                        user.user!.data!.phoneNumber.toString(),
-                                        user.user!.data!.address.toString(),
-                                        'COD',
-                                        data.totalCalculatedPrice.toString(),
-                                        user.user!.data!.city.toString(),
-                                        // '${DateTime.now().year}-0${DateTime.now().month}-${DateTime.now().day}',
-                                        user.user!.data!.userName!,
-                                        cartInvoice.cartItems![0].ticketId
-                                            .toString(),
-                                        user.user!.data!.id!,
-                                        user.user!.data!.zipCode.toString());
-                                    PageRouteService.pageRoute(
-                                        context: context,
-                                        child: SuccessMessageScreen());
-                                  }
-                                },
+                                onPressed: color == null
+                                    ? null
+                                    : () {
+                                        if (validate()) {
+                                          saveCustomerOrderHandler(
+                                              user.user!.data!.email.toString(),
+                                              user.user!.data!.phoneNumber
+                                                  .toString(),
+                                              user.user!.data!.address
+                                                  .toString(),
+                                              'COD',
+                                              data.totalCalculatedPrice
+                                                  .toString(),
+                                              user.user!.data!.city.toString(),
+                                              // '${DateTime.now().year}-0${DateTime.now().month}-${DateTime.now().day}',
+                                              user.user!.data!.userName!,
+                                              cartInvoice.cartItems![0].ticketId
+                                                  .toString(),
+                                              user.user!.data!.id!,
+                                              user.user!.data!.zipCode
+                                                  .toString());
+                                          PageRouteService.pageRoute(
+                                              context: context,
+                                              child: SuccessMessageScreen());
+                                        }
+                                      },
                                 child: Text(
                                   'Place order',
                                   style: TextStyle(color: Colors.white),
