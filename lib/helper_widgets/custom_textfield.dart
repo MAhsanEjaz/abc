@@ -83,7 +83,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               // height: widget.height,
               width: widget.width,
               child: TextField(
-                textCapitalization: TextCapitalization.characters,
+                textCapitalization: TextCapitalization.none,
                 onSubmitted: (widget.onSubmit),
                 readOnly: widget.readOnly,
                 minLines: 1,

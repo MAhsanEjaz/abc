@@ -40,7 +40,7 @@ class _OrderCardState extends State<OrderCard> {
       CustomSnackBar.failedSnackBar(
           context: context, message: 'Please Check Information');
     } else {
-      NavigationServices.goNextAndDoNotKeepHistory(
+      NavigationServices.goNextAndKeepHistory(
           context: context, widget: CartScreen());
     }
   }

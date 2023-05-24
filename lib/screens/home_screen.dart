@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:abc_cash_and_carry/helper_services/add_to_cart_service.dart';
 import 'package:abc_cash_and_carry/helper_services/custom_loader.dart';
 import 'package:abc_cash_and_carry/helper_services/custom_snackbar.dart';
 import 'package:abc_cash_and_carry/helper_services/internet_connectivity_service.dart';
 import 'package:abc_cash_and_carry/helper_services/navigation_services.dart';
+import 'package:abc_cash_and_carry/helper_services/token_save_service.dart';
 import 'package:abc_cash_and_carry/helper_widgets/custom_textfield.dart';
+import 'package:abc_cash_and_carry/models/user_model.dart';
 import 'package:abc_cash_and_carry/providers/cart_invoice_number_provider.dart';
 import 'package:abc_cash_and_carry/providers/cart_items_provider.dart';
 import 'package:abc_cash_and_carry/providers/customer_profile_provider.dart';
@@ -36,6 +40,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
+
   TextEditingController searchControl = TextEditingController();
   final _cancelController = TextEditingController(text: 'Cancel');
 

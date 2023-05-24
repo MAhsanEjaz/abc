@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:abc_cash_and_carry/helper_services/custom_loader.dart';
 import 'package:abc_cash_and_carry/helper_services/custom_snackbar.dart';
 import 'package:abc_cash_and_carry/helper_services/internet_connectivity_service.dart';
 import 'package:abc_cash_and_carry/helper_services/navigation_services.dart';
+import 'package:abc_cash_and_carry/helper_services/token_save_service.dart';
 import 'package:abc_cash_and_carry/helper_widgets/custom_button.dart';
 import 'package:abc_cash_and_carry/helper_widgets/custom_textfield.dart';
+import 'package:abc_cash_and_carry/models/user_model.dart';
 import 'package:abc_cash_and_carry/screens/forget_password_screen.dart';
 import 'package:abc_cash_and_carry/screens/zoom.dart';
 import 'package:abc_cash_and_carry/services/login_services.dart';
@@ -17,9 +21,19 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  UserModel userModel = UserModel();
+
+  String? name;
+
+  getData() async {
+    userModel = await LocalStorageService().getUserSavedData(context: context);
+    userModel = jsonDecode(userModel.toString());
+    setState(() {});
+  }
+
   TextEditingController emailTextController = TextEditingController(text: '');
   TextEditingController passwordTextController =
-  TextEditingController(text: '');
+      TextEditingController(text: '');
   bool isPasswordVisible = true;
 
   _validation() {
@@ -58,6 +72,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   int? color;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,8 +125,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             hintText: '********',
                             controller: passwordTextController,
                             postfixIcon: isPasswordVisible
-                                ? CupertinoIcons.eye
-                                : CupertinoIcons.eye_slash,
+                                ? CupertinoIcons.eye_slash
+                                : CupertinoIcons.eye,
                           ),
                           Align(
                             alignment: Alignment.centerRight,
